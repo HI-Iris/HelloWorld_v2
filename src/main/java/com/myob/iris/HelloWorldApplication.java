@@ -8,13 +8,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 public class HelloWorldApplication {
     public static void main(String[] args) throws Exception {
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new MyHandler());
         server.setExecutor(null);
         server.start();
@@ -28,7 +27,7 @@ public class HelloWorldApplication {
             final User defaultUser = new User("Iris");
             ArrayList<User> users = new ArrayList<>();
             users.add(defaultUser);
-            GreetingBuilder greetingBuilder = new GreetingBuilder(users, new Date().toString());
+            GreetingBuilder greetingBuilder = new GreetingBuilder(users, new Date());
             String response = greetingBuilder.buildGreeting();
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();

@@ -1,7 +1,6 @@
 package com.myob.iris;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,39 +12,58 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GreetingBuilderTest {
     private static List<User> users;
+    private Date testDate = new Date();
 
     @Before
     public void setup() {
         users = new ArrayList<>();
         users.add(new User("Iris"));
+        testDate.setTime(1561078257000L);
     }
 
     @Test
-    public void giveOneUserShouldReturnUserNameAndServerTime(){
-        String expect = "Hello Iris - the time on the server is 10:59pm on 14 March 2018";
-        GreetingBuilder greetingBuilder = new GreetingBuilder(users, "14/03/2018");
+    public void giveOneUserShouldReturnFormattedGreeting() {
+        String expected = "Hello Iris - the time on the server is 10:50am on 21 June 2019";
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users, testDate);
         String actual = greetingBuilder.buildGreeting();
-        assertThat(actual, equalTo(expect));
+        assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void giveTwoUsersShouldReturnNameAndNameAndServerTime(){
-        users.add(new User("Paul"));
-        String expect = "Hello Paul and Iris - the time on the server is 10:59pm on 14 March 2018";
-        GreetingBuilder greetingBuilder = new GreetingBuilder(users, "14/03/2018");
+    public void giveOneUserShouldReturnUserNameAndServerTime() {
+        testDate.setTime(1461078834000L);
+        String expected = "Hello Iris - the time on the server is 01:13am on 20 April 2016";
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users, testDate);
         String actual = greetingBuilder.buildGreeting();
-        assertThat(actual, equalTo(expect));
+        assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void giveThreeUsersShouldReturnNameNameAndNameAndServerTime(){
+    public void giveOneUserShouldReturnUserNameAndServerTimePm() {
+        testDate.setTime(1561088949000L);
+        String expected = "Hello Iris - the time on the server is 01:49pm on 21 June 2019";
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users, testDate);
+        String actual = greetingBuilder.buildGreeting();
+        assertThat(actual, equalTo(expected));
+    }
+
+    @Test
+    public void giveTwoUsersShouldReturnNameAndNameAndServerTime() {
         users.add(new User("Paul"));
+        String expected = "Hello Iris and Paul - the time on the server is 10:50am on 21 June 2019";
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users, testDate);
+        String actual = greetingBuilder.buildGreeting();
+        assertThat(actual, equalTo(expected));
+    }
+
+    @Test
+    public void giveThreeUsersShouldReturnNameNameAndNameAndServerTime() {
         users.add(new User("Bella"));
-        String expect = "Hello Bella, Paul and Iris - the time on the server is 10:59pm on 14 March 2018";
-        GreetingBuilder greetingBuilder = new GreetingBuilder(users, "14/03/2018");
+        users.add(new User("Paul"));
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users, testDate);
+        String expected = "Hello Iris, Bella and Paul - the time on the server is 10:50am on 21 June 2019";
         String actual = greetingBuilder.buildGreeting();
-        assertThat(actual, equalTo(expect));
+        assertThat(actual, equalTo(expected));
     }
-
 
 }
