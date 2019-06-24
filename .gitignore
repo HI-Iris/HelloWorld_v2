@@ -132,4 +132,6 @@ gradle-app.setting
 .idea/
 *.iml
 
+.gradle
+.gradle/*
 # End of https://www.gitignore.io/api/java,gradle,intellij
