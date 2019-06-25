@@ -11,15 +11,15 @@ public class UserCRUD {
         this.nameCheckResult = checkName(users, nameToCreate);
         switch (nameCheckResult) {
             case Default_User:
-                return new CRUDResult(false, Constance.DEFAULT_USER);
+                return new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
             case User_Exist:
-                return new CRUDResult(false, Constance.USER_EXIST);
+                return new CRUDResult(false, Constance.ERROR_USER_EXIST);
             case User_Not_Exist:
                 User newUser = new User(nameToCreate);
                 users.add(newUser);
                 return new CRUDResult(true, Constance.USER_CREATED);
             default:
-                return new CRUDResult(false, Constance.UNEXPECTED);
+                return new CRUDResult(false, Constance.ERROR_UNEXPECTED);
         }
     }
 
@@ -31,19 +31,19 @@ public class UserCRUD {
         this.nameCheckResult = checkName(users, nameToUpdate);
         switch (nameCheckResult) {
             case Default_User:
-                return new CRUDResult(false, Constance.DEFAULT_USER);
+                return new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
             case User_Not_Exist:
-                return new CRUDResult(false, Constance.USER_NOT_EXIST);
+                return new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
             case User_Exist:
                 NameCheckResult newNameCheckResult = checkName(users, newName);
                 if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
                     users.get(this.userIndex).setName(newName);
                     return new CRUDResult(true, Constance.USER_UPDATED);
                 } else {
-                    return new CRUDResult(false, Constance.USER_EXIST);
+                    return new CRUDResult(false, Constance.ERROR_USER_EXIST);
                 }
             default:
-                return new CRUDResult(false, Constance.UNEXPECTED);
+                return new CRUDResult(false, Constance.ERROR_UNEXPECTED);
         }
 
     }
@@ -52,14 +52,14 @@ public class UserCRUD {
         this.nameCheckResult = checkName(users, nameToDelete);
         switch (nameCheckResult) {
             case Default_User:
-                return new CRUDResult(false, Constance.DEFAULT_USER);
+                return new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
             case User_Exist:
                 users.remove(this.userIndex);
                 return new CRUDResult(true, Constance.USER_DELETED);
             case User_Not_Exist:
-                return new CRUDResult(false, Constance.USER_NOT_EXIST);
+                return new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
             default:
-                return new CRUDResult(false, Constance.UNEXPECTED);
+                return new CRUDResult(false, Constance.ERROR_UNEXPECTED);
         }
     }
 

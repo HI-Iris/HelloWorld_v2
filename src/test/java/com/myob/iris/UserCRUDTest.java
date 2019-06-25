@@ -46,8 +46,15 @@ public class UserCRUDTest {
     }
 
     @Test
-    public void giveUserInListShouldReturnExist(){
+    public void giveUserInLowerCaseInListShouldReturnExist(){
         String nameToExam ="bella";
+        this.nameCheckResult = userCRUD.checkName(users, nameToExam);
+        assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Exist));
+    }
+
+    @Test
+    public void giveUserInRandomCaseInListShouldReturnExist(){
+        String nameToExam ="bEllA";
         this.nameCheckResult = userCRUD.checkName(users, nameToExam);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Exist));
     }
@@ -63,7 +70,7 @@ public class UserCRUDTest {
     public void giveDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
@@ -81,7 +88,7 @@ public class UserCRUDTest {
     public void giveNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -98,7 +105,7 @@ public class UserCRUDTest {
     public void giveDefaultUserNameShouldNotCreateUser(){
         String nameToCreate = "iris";
         crudResult = userCRUD.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -106,7 +113,7 @@ public class UserCRUDTest {
     public void giveExistUserNameShouldNotCreateUser(){
         String nameToCreate = "bella";
         crudResult = userCRUD.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constance.USER_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -115,7 +122,7 @@ public class UserCRUDTest {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -126,13 +133,15 @@ public class UserCRUDTest {
         crudResult = userCRUD.update(users,nameToUpdate,newName);
         CRUDResult expected = new CRUDResult(true, Constance.USER_UPDATED);
         assertThat(crudResult, equalTo(expected));
+        assertThat(users.get(2).getName(), equalTo("Jane"));
     }
+
     @Test
     public void giveExistUserAndExistNameShouldNotUpdate(){
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.USER_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -141,7 +150,7 @@ public class UserCRUDTest {
         String nameToUpdate = "Jane";
         String newName = "bella";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 }
