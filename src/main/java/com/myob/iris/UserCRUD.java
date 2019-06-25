@@ -5,10 +5,22 @@ import java.util.List;
 
 public class UserCRUD {
     private int userIndex;
-    private NameExamResult nameExamResult;
+    private NameCheckResult nameCheckResult;
 
-    public CRUDResult create(String nameToCreate) {
-        return new CRUDResult(false, "");
+    public CRUDResult create(List<User> users, String nameToCreate) {
+        this.nameCheckResult = checkName(users, nameToCreate);
+        switch (nameCheckResult) {
+            case Default_User:
+                return new CRUDResult(false, Constance.DEFAULT_USER);
+            case User_Exist:
+                return new CRUDResult(false, Constance.USER_EXIST);
+            case User_Not_Exist:
+                User newUser = new User(nameToCreate);
+                users.add(newUser);
+                return new CRUDResult(true, Constance.USER_CREATED);
+            default:
+                return new CRUDResult(false, Constance.UNEXPECTED);
+        }
     }
 
     public CRUDResult read() {
@@ -16,33 +28,50 @@ public class UserCRUD {
     }
 
     public CRUDResult update(List<User> users, String nameToUpdate, String newName) {
-        return new CRUDResult(false, "");
+        this.nameCheckResult = checkName(users, nameToUpdate);
+        switch (nameCheckResult) {
+            case Default_User:
+                return new CRUDResult(false, Constance.DEFAULT_USER);
+            case User_Not_Exist:
+                return new CRUDResult(false, Constance.USER_NOT_EXIST);
+            case User_Exist:
+                NameCheckResult newNameCheckResult = checkName(users, newName);
+                if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
+                    users.get(this.userIndex).setName(newName);
+                    return new CRUDResult(true, Constance.USER_UPDATED);
+                } else {
+                    return new CRUDResult(false, Constance.USER_EXIST);
+                }
+            default:
+                return new CRUDResult(false, Constance.UNEXPECTED);
+        }
+
     }
 
     public CRUDResult delete(List<User> users, String nameToDelete) {
-        this.nameExamResult = getNameExamResult(nameToDelete, users);
-        switch (nameExamResult) {
+        this.nameCheckResult = checkName(users, nameToDelete);
+        switch (nameCheckResult) {
             case Default_User:
                 return new CRUDResult(false, Constance.DEFAULT_USER);
             case User_Exist:
                 users.remove(this.userIndex);
-                return new CRUDResult(true, "");
+                return new CRUDResult(true, Constance.USER_DELETED);
             case User_Not_Exist:
                 return new CRUDResult(false, Constance.USER_NOT_EXIST);
             default:
-                return new CRUDResult(false, "unexpected");
+                return new CRUDResult(false, Constance.UNEXPECTED);
         }
     }
 
-    public NameExamResult getNameExamResult(String nameToExam, List<User> users) {
+    public NameCheckResult checkName(List<User> users, String nameToExam) {
         List<String> names = getUpperCaseNamesFromUsers(users);
         if (nameToExam.toUpperCase().equals(names.get(0))) {
-            return NameExamResult.Default_User;
+            return NameCheckResult.Default_User;
         } else if (names.contains(nameToExam.toUpperCase())) {
             this.userIndex = names.indexOf(nameToExam.toUpperCase());
-            return NameExamResult.User_Exist;
+            return NameCheckResult.User_Exist;
         } else {
-            return NameExamResult.User_Not_Exist;
+            return NameCheckResult.User_Not_Exist;
         }
     }
 

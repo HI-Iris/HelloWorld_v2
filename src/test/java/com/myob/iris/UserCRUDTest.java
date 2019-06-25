@@ -16,7 +16,7 @@ public class UserCRUDTest {
     private List<User> users;
     private UserCRUD userCRUD;
     private CRUDResult crudResult;
-    private NameExamResult nameExamResult;
+    private NameCheckResult nameCheckResult;
     private final User defaultUser = new User("Iris");
     private User bella = new User("Bella");
     private User paul = new User("Paul");
@@ -34,29 +34,29 @@ public class UserCRUDTest {
     @Test
     public void giveDefaultUserInLowerCaseShouldReturnDefault(){
         String nameToExam ="iris";
-        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
-        assertThat(this.nameExamResult, equalTo(NameExamResult.Default_User));
+        this.nameCheckResult = userCRUD.checkName(users, nameToExam);
+        assertThat(this.nameCheckResult, equalTo(NameCheckResult.Default_User));
     }
 
     @Test
     public void giveDefaultUserInRandomCaseShouldReturnDefault(){
         String nameToExam ="iRiS";
-        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
-        assertThat(this.nameExamResult, equalTo(NameExamResult.Default_User));
+        this.nameCheckResult = userCRUD.checkName(users, nameToExam);
+        assertThat(this.nameCheckResult, equalTo(NameCheckResult.Default_User));
     }
 
     @Test
     public void giveUserInListShouldReturnExist(){
         String nameToExam ="bella";
-        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
-        assertThat(this.nameExamResult, equalTo(NameExamResult.User_Exist));
+        this.nameCheckResult = userCRUD.checkName(users, nameToExam);
+        assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Exist));
     }
 
     @Test
     public void giveUserNotInListShouldReturnNotExist(){
         String nameToExam ="no in list";
-        this.nameExamResult = userCRUD.getNameExamResult(nameToExam, users);
-        assertThat(this.nameExamResult, equalTo(NameExamResult.User_Not_Exist));
+        this.nameCheckResult = userCRUD.checkName(users, nameToExam);
+        assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Not_Exist));
     }
 
     @Test
@@ -72,17 +72,76 @@ public class UserCRUDTest {
     public void giveNonDefaultUserNameShouldDelete() {
         String nameToDelete = "Bella";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(true, "");
+        CRUDResult expected = new CRUDResult(true, Constance.USER_DELETED);
         assertThat(crudResult, equalTo(expected));
         assertFalse(users.contains(this.bella));
     }
 
     @Test
-    public void giveNonExistingUserNameShouldNotDelete() {
+    public void giveNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
         crudResult = userCRUD.delete(users, nameToDelete);
         CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
+    @Test
+    public void giveNonExistUserNameShouldCreateUser(){
+        String nameToCreate = "Lee";
+        crudResult = userCRUD.create(users, nameToCreate);
+        CRUDResult expected = new CRUDResult(true, Constance.USER_CREATED);
+        assertThat(crudResult, equalTo(expected));
+        assertThat(users.get(3).getName(), equalTo("Lee"));
+    }
+
+    @Test
+    public void giveDefaultUserNameShouldNotCreateUser(){
+        String nameToCreate = "iris";
+        crudResult = userCRUD.create(users, nameToCreate);
+        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
+        assertThat(crudResult, equalTo(expected));
+    }
+
+    @Test
+    public void giveExistUserNameShouldNotCreateUser(){
+        String nameToCreate = "bella";
+        crudResult = userCRUD.create(users, nameToCreate);
+        CRUDResult expected = new CRUDResult(false, Constance.USER_EXIST);
+        assertThat(crudResult, equalTo(expected));
+    }
+
+    @Test
+    public void giveDefaultUserShouldNotUpdate(){
+        String nameToUpdate = defaultUser.getName();
+        String newName = "Jane";
+        crudResult = userCRUD.update(users,nameToUpdate,newName);
+        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
+        assertThat(crudResult, equalTo(expected));
+    }
+
+    @Test
+    public void giveExistUserAndNewNameShouldUpdate(){
+        String nameToUpdate = users.get(2).getName();
+        String newName = "Jane";
+        crudResult = userCRUD.update(users,nameToUpdate,newName);
+        CRUDResult expected = new CRUDResult(true, Constance.USER_UPDATED);
+        assertThat(crudResult, equalTo(expected));
+    }
+    @Test
+    public void giveExistUserAndExistNameShouldNotUpdate(){
+        String nameToUpdate = users.get(2).getName();
+        String newName = "bella";
+        crudResult = userCRUD.update(users,nameToUpdate,newName);
+        CRUDResult expected = new CRUDResult(false, Constance.USER_EXIST);
+        assertThat(crudResult, equalTo(expected));
+    }
+
+    @Test
+    public void giveNotExistUserShouldNotUpdate(){
+        String nameToUpdate = "Jane";
+        String newName = "bella";
+        crudResult = userCRUD.update(users,nameToUpdate,newName);
+        CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
+        assertThat(crudResult, equalTo(expected));
+    }
 }
