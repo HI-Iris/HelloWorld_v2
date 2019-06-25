@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserCRUD {
-    int userIndex;
+    private int userIndex;
+    private NameExamResult nameExamResult;
 
     public CRUDResult create(String nameToCreate) {
         return new CRUDResult(false, "");
@@ -19,7 +20,7 @@ public class UserCRUD {
     }
 
     public CRUDResult delete(List<User> users, String nameToDelete) {
-        NameExamResult nameExamResult = getNameExamResult(nameToDelete, users);
+        this.nameExamResult = getNameExamResult(nameToDelete, users);
         switch (nameExamResult) {
             case Default_User:
                 return new CRUDResult(false, Constance.DEFAULT_USER);

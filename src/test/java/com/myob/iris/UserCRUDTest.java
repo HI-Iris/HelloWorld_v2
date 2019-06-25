@@ -16,6 +16,7 @@ public class UserCRUDTest {
     private List<User> users;
     private UserCRUD userCRUD;
     private CRUDResult crudResult;
+    private NameExamResult nameExamResult;
     private final User defaultUser = new User("Iris");
     private User bella = new User("Bella");
     private User paul = new User("Paul");
@@ -28,6 +29,34 @@ public class UserCRUDTest {
         users.add(defaultUser);
         users.add(bella);
         users.add(paul);
+    }
+
+    @Test
+    public void giveDefaultUserInLowerCaseShouldReturnDefault(){
+        String nameToExam ="iris";
+        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
+        assertThat(this.nameExamResult, equalTo(NameExamResult.Default_User));
+    }
+
+    @Test
+    public void giveDefaultUserInRandomCaseShouldReturnDefault(){
+        String nameToExam ="iRiS";
+        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
+        assertThat(this.nameExamResult, equalTo(NameExamResult.Default_User));
+    }
+
+    @Test
+    public void giveUserInListShouldReturnExist(){
+        String nameToExam ="bella";
+        this.nameExamResult = userCRUD.getNameExamResult(nameToExam,users);
+        assertThat(this.nameExamResult, equalTo(NameExamResult.User_Exist));
+    }
+
+    @Test
+    public void giveUserNotInListShouldReturnNotExist(){
+        String nameToExam ="no in list";
+        this.nameExamResult = userCRUD.getNameExamResult(nameToExam, users);
+        assertThat(this.nameExamResult, equalTo(NameExamResult.User_Not_Exist));
     }
 
     @Test
@@ -54,26 +83,6 @@ public class UserCRUDTest {
         crudResult = userCRUD.delete(users, nameToDelete);
         CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
-    }
-
-    @Test
-    public void userIsDefault(){
-        String nameToExam ="iris";
-        NameExamResult result = userCRUD.getNameExamResult(nameToExam,users);
-        assertThat(result, equalTo(NameExamResult.Default_User));
-    }
-    @Test
-    public void userExist(){
-        String nameToExam ="bella";
-        NameExamResult result = userCRUD.getNameExamResult(nameToExam,users);
-        assertThat(result, equalTo(NameExamResult.User_Exist));
-    }
-
-    @Test
-    public void userDoesNotExist(){
-        String nameToExam ="no in list";
-        NameExamResult result = userCRUD.getNameExamResult(nameToExam, users);
-        assertThat(result, equalTo(NameExamResult.User_Not_Exist));
     }
 
 }
