@@ -1,14 +1,15 @@
 package com.myob.iris;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class UserCRUD {
-    private int userIndex;
-    private NameCheckResult nameCheckResult;
+public class UserDaoImpl implements UserDao {
 
+    @Override
     public CRUDResult create(List<User> users, String nameToCreate) {
-        this.nameCheckResult = checkName(users, nameToCreate);
+        List<String> upperCaseName = getUpperCaseNamesFromUsers(users);
+
+        NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToCreate);
         switch (nameCheckResult) {
             case Default_User:
                 return new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
@@ -23,21 +24,28 @@ public class UserCRUD {
         }
     }
 
-    public CRUDResult read() {
-        return new CRUDResult(false, "");
+    @Override
+    public CRUDResult read(List<User> users) {
+        List<String> names = users.stream().map(User::getName).collect(Collectors.toList());
+        String nameList = String.join(", ", names);
+        return new CRUDResult(true, Constant.USER_READ);
     }
 
+    @Override
     public CRUDResult update(List<User> users, String nameToUpdate, String newName) {
-        this.nameCheckResult = checkName(users, nameToUpdate);
+        List<String> upperCaseName = getUpperCaseNamesFromUsers(users);
+
+        NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToUpdate);
         switch (nameCheckResult) {
             case Default_User:
                 return new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
             case User_Not_Exist:
                 return new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
             case User_Exist:
-                NameCheckResult newNameCheckResult = checkName(users, newName);
+                NameCheckResult newNameCheckResult = NameValidator.checkName(upperCaseName, newName);
                 if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
-                    users.get(this.userIndex).setName(newName);
+                    int userIndex = upperCaseName.indexOf(nameToUpdate.toUpperCase());
+                    users.get(userIndex).setName(newName);
                     return new CRUDResult(true, Constant.USER_UPDATED);
                 } else {
                     return new CRUDResult(false, Constant.ERROR_USER_EXIST);
@@ -45,16 +53,18 @@ public class UserCRUD {
             default:
                 return new CRUDResult(false, Constant.ERROR_UNEXPECTED);
         }
-
     }
 
+    @Override
     public CRUDResult delete(List<User> users, String nameToDelete) {
-        this.nameCheckResult = checkName(users, nameToDelete);
+        List<String> upperCaseName = getUpperCaseNamesFromUsers(users);
+        NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToDelete);
         switch (nameCheckResult) {
             case Default_User:
                 return new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
             case User_Exist:
-                users.remove(this.userIndex);
+                int userIndex = upperCaseName.indexOf(nameToDelete.toUpperCase());
+                users.remove(userIndex);
                 return new CRUDResult(true, Constant.USER_DELETED);
             case User_Not_Exist:
                 return new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
@@ -63,23 +73,11 @@ public class UserCRUD {
         }
     }
 
-    public NameCheckResult checkName(List<User> users, String nameToExam) {
-        List<String> names = getUpperCaseNamesFromUsers(users);
-        if (nameToExam.toUpperCase().equals(names.get(0))) {
-            return NameCheckResult.Default_User;
-        } else if (names.contains(nameToExam.toUpperCase())) {
-            this.userIndex = names.indexOf(nameToExam.toUpperCase());
-            return NameCheckResult.User_Exist;
-        } else {
-            return NameCheckResult.User_Not_Exist;
-        }
+
+
+    private List<String> getUpperCaseNamesFromUsers(List<User> users){
+        return users.stream().map(user -> user.getName().toUpperCase()).collect(Collectors.toList());
+
     }
 
-    private List<String> getUpperCaseNamesFromUsers(List<User> users) {
-        List<String> names = new ArrayList<>();
-        for (User user : users) {
-            names.add(user.getName().toUpperCase());
-        }
-        return names;
-    }
 }

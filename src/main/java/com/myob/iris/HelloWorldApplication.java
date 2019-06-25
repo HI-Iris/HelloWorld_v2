@@ -27,8 +27,10 @@ public class HelloWorldApplication {
             final User defaultUser = new User("Iris");
             ArrayList<User> users = new ArrayList<>();
             users.add(defaultUser);
-            GreetingBuilder greetingBuilder = new GreetingBuilder(users, new Date());
-            String response = greetingBuilder.buildGreeting();
+            GreetingBuilder greetingBuilder = new GreetingBuilder();
+
+
+            String response = greetingBuilder.buildGreeting(users, new Date());
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());

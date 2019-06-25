@@ -3,7 +3,7 @@ HelloWorld
 1. User should be able to add a person to this app by sending request to backend
    POST /users
    
-   DB             input       DB change
+   DB             input        DB change
    [A]              A           [A]
    [A]              1           [A]
    [A]              a           [A]
