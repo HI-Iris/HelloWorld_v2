@@ -6,7 +6,6 @@ public class CRUDResult {
     private boolean flag;
     private String response;
 
-
     public CRUDResult(boolean flag, String response) {
         this.flag = flag;
         this.response = response;

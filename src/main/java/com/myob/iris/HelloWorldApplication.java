@@ -21,15 +21,12 @@ public class HelloWorldApplication {
 
     public static class MyHandler implements HttpHandler {
 
-
         @Override
         public void handle(HttpExchange t) throws IOException {
             final User defaultUser = new User("Iris");
             ArrayList<User> users = new ArrayList<>();
             users.add(defaultUser);
             GreetingBuilder greetingBuilder = new GreetingBuilder();
-
-
             String response = greetingBuilder.buildGreeting(users, new Date());
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();

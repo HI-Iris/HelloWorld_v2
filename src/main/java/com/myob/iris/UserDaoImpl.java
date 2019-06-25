@@ -8,7 +8,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public CRUDResult create(List<User> users, String nameToCreate) {
         List<String> upperCaseName = getUpperCaseNamesFromUsers(users);
-
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToCreate);
         switch (nameCheckResult) {
             case Default_User:
@@ -34,7 +33,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public CRUDResult update(List<User> users, String nameToUpdate, String newName) {
         List<String> upperCaseName = getUpperCaseNamesFromUsers(users);
-
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToUpdate);
         switch (nameCheckResult) {
             case Default_User:
@@ -73,11 +71,8 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
-
     private List<String> getUpperCaseNamesFromUsers(List<User> users){
         return users.stream().map(user -> user.getName().toUpperCase()).collect(Collectors.toList());
-
     }
 
 }
