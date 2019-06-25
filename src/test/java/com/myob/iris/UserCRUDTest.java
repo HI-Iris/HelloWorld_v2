@@ -70,7 +70,7 @@ public class UserCRUDTest {
     public void giveDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
@@ -79,7 +79,7 @@ public class UserCRUDTest {
     public void giveNonDefaultUserNameShouldDelete() {
         String nameToDelete = "Bella";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(true, Constance.USER_DELETED);
+        CRUDResult expected = new CRUDResult(true, Constant.USER_DELETED);
         assertThat(crudResult, equalTo(expected));
         assertFalse(users.contains(this.bella));
     }
@@ -88,7 +88,7 @@ public class UserCRUDTest {
     public void giveNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -96,7 +96,7 @@ public class UserCRUDTest {
     public void giveNonExistUserNameShouldCreateUser(){
         String nameToCreate = "Lee";
         crudResult = userCRUD.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(true, Constance.USER_CREATED);
+        CRUDResult expected = new CRUDResult(true, Constant.USER_CREATED);
         assertThat(crudResult, equalTo(expected));
         assertThat(users.get(3).getName(), equalTo("Lee"));
     }
@@ -105,7 +105,7 @@ public class UserCRUDTest {
     public void giveDefaultUserNameShouldNotCreateUser(){
         String nameToCreate = "iris";
         crudResult = userCRUD.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -113,7 +113,7 @@ public class UserCRUDTest {
     public void giveExistUserNameShouldNotCreateUser(){
         String nameToCreate = "bella";
         crudResult = userCRUD.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -122,7 +122,7 @@ public class UserCRUDTest {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_DEFAULT_USER);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -131,7 +131,7 @@ public class UserCRUDTest {
         String nameToUpdate = users.get(2).getName();
         String newName = "Jane";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(true, Constance.USER_UPDATED);
+        CRUDResult expected = new CRUDResult(true, Constant.USER_UPDATED);
         assertThat(crudResult, equalTo(expected));
         assertThat(users.get(2).getName(), equalTo("Jane"));
     }
@@ -141,7 +141,7 @@ public class UserCRUDTest {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 
@@ -150,7 +150,7 @@ public class UserCRUDTest {
         String nameToUpdate = "Jane";
         String newName = "bella";
         crudResult = userCRUD.update(users,nameToUpdate,newName);
-        CRUDResult expected = new CRUDResult(false, Constance.ERROR_USER_NOT_EXIST);
+        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
     }
 }
