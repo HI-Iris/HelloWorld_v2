@@ -19,6 +19,7 @@ public class UserCRUDTest {
     private final User defaultUser = new User("Iris");
     private User bella = new User("Bella");
     private User paul = new User("Paul");
+
     @Before
     public void setup() {
         userCRUD = new UserCRUD();
@@ -33,7 +34,7 @@ public class UserCRUDTest {
     public void giveDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, "");
+        CRUDResult expected = new CRUDResult(false, Constance.DEFAULT_USER);
         assertThat(crudResult, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
@@ -50,14 +51,29 @@ public class UserCRUDTest {
     @Test
     public void giveNonExistingUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
-        User jane = new User(nameToDelete);
         crudResult = userCRUD.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, "");
+        CRUDResult expected = new CRUDResult(false, Constance.USER_NOT_EXIST);
         assertThat(crudResult, equalTo(expected));
-        assertFalse(users.contains(jane));
-        assertTrue(users.contains(defaultUser));
-        assertTrue(users.contains(bella));
-        assertTrue(users.contains(paul));
+    }
+
+    @Test
+    public void userIsDefault(){
+        String nameToExam ="iris";
+        NameExamResult result = userCRUD.getNameExamResult(nameToExam,users);
+        assertThat(result, equalTo(NameExamResult.Default_User));
+    }
+    @Test
+    public void userExist(){
+        String nameToExam ="bella";
+        NameExamResult result = userCRUD.getNameExamResult(nameToExam,users);
+        assertThat(result, equalTo(NameExamResult.User_Exist));
+    }
+
+    @Test
+    public void userDoesNotExist(){
+        String nameToExam ="no in list";
+        NameExamResult result = userCRUD.getNameExamResult(nameToExam, users);
+        assertThat(result, equalTo(NameExamResult.User_Not_Exist));
     }
 
 }
