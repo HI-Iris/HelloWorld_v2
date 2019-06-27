@@ -15,7 +15,7 @@ public class UserDaoImplTest {
 
     private List<User> users;
     private UserDaoImpl userDaoImpl;
-    private CRUDResult crudResult;
+    private HttpResponse httpResponse;
     private final User defaultUser = new User("Iris");
     private User bella = new User("Bella");
     private User paul = new User("Paul");
@@ -23,7 +23,7 @@ public class UserDaoImplTest {
     @Before
     public void setup() {
         userDaoImpl = new UserDaoImpl();
-        crudResult = new CRUDResult(false, "");
+        httpResponse = new HttpResponse(404, "");
         users = new ArrayList<>();
         users.add(defaultUser);
         users.add(bella);
@@ -34,70 +34,70 @@ public class UserDaoImplTest {
     @Test
     public void giveDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
-        crudResult = userDaoImpl.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.delete(users, nameToDelete);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        assertThat(httpResponse, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
 
     @Test
     public void giveNonDefaultUserNameShouldDelete() {
         String nameToDelete = "Bella";
-        crudResult = userDaoImpl.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(true, Constant.USER_DELETED);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.delete(users, nameToDelete);
+        HttpResponse expected = new HttpResponse(200, Constant.USER_DELETED);
+        assertThat(httpResponse, equalTo(expected));
         assertFalse(users.contains(this.bella));
     }
 
     @Test
     public void giveNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
-        crudResult = userDaoImpl.delete(users, nameToDelete);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.delete(users, nameToDelete);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_NOT_EXIST);
+        assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
     public void giveNonExistUserNameShouldCreateUser() {
         String nameToCreate = "Lee";
-        crudResult = userDaoImpl.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(true, Constant.USER_CREATED);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.create(users, nameToCreate);
+        HttpResponse expected = new HttpResponse(200, Constant.USER_CREATED);
+        assertThat(httpResponse, equalTo(expected));
         assertThat(users.get(3).getName(), equalTo("Lee"));
     }
 
     @Test
     public void giveDefaultUserNameShouldNotCreateUser() {
         String nameToCreate = "iris";
-        crudResult = userDaoImpl.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.create(users, nameToCreate);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
     public void giveExistUserNameShouldNotCreateUser() {
         String nameToCreate = "bella";
-        crudResult = userDaoImpl.create(users, nameToCreate);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_EXIST);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.create(users, nameToCreate);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_EXIST);
+        assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
     public void giveDefaultUserShouldNotUpdate() {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
-        crudResult = userDaoImpl.update(users, nameToUpdate, newName);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_DEFAULT_USER);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
     public void giveExistUserAndNewNameShouldUpdate() {
         String nameToUpdate = users.get(2).getName();
         String newName = "Jane";
-        crudResult = userDaoImpl.update(users, nameToUpdate, newName);
-        CRUDResult expected = new CRUDResult(true, Constant.USER_UPDATED);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
+        HttpResponse expected = new HttpResponse(200, Constant.USER_UPDATED);
+        assertThat(httpResponse, equalTo(expected));
         assertThat(users.get(2).getName(), equalTo("Jane"));
     }
 
@@ -105,17 +105,17 @@ public class UserDaoImplTest {
     public void giveExistUserAndExistNameShouldNotUpdate() {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
-        crudResult = userDaoImpl.update(users, nameToUpdate, newName);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_EXIST);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_EXIST);
+        assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
     public void giveNotExistUserShouldNotUpdate() {
         String nameToUpdate = "Jane";
         String newName = "bella";
-        crudResult = userDaoImpl.update(users, nameToUpdate, newName);
-        CRUDResult expected = new CRUDResult(false, Constant.ERROR_USER_NOT_EXIST);
-        assertThat(crudResult, equalTo(expected));
+        httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
+        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_NOT_EXIST);
+        assertThat(httpResponse, equalTo(expected));
     }
 }

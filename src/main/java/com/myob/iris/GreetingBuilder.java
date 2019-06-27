@@ -11,7 +11,7 @@ public class GreetingBuilder {
     }
 
     private String formatDate(Date date) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("KK:mma 'on' dd MMMM YYYY");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("hh:mma 'on' dd MMMM YYYY");
         return dateFormatter.format(date);
     }
 
