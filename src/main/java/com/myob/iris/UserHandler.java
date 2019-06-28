@@ -4,46 +4,54 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class UserHandler implements HttpHandler {
+public class UserHandler extends HttpResponseSender implements HttpHandler {
 
     private List<User> users;
+    private UserRepositoryImpl userRepository;
 
-    public UserHandler(List<User> users) {
-        this.users=users;
+    public UserHandler(List<User> users, UserRepositoryImpl userRepository) {
+        this.users = users;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String content;
+        Map<String, String> params = getParameters(exchange.getRequestURI().getQuery());
+        HttpResponse myResponse = Constant.RESP_NOT_IMPLEMENTE;
         switch (exchange.getRequestMethod().toUpperCase()) {
             case "POST":
-                users.add(new User("Bella"));
-                content = "post";
+                myResponse = userRepository.create(this.users, params.get("name"));
                 break;
             case "GET":
-                content = "get";
+                myResponse = userRepository.read(this.users);
                 break;
             case "DELETE":
-                content = "delete";
+                myResponse = userRepository.delete(this.users, params.get("name"));
                 break;
             case "PUT":
-                content = "put";
+                myResponse = userRepository.update(this.users, params.get("name"), params.get("newName"));
                 break;
             default:
-                content = "this is a sample";
+                break;
         }
-        returnResponse(content, exchange);
+        sendResponse(myResponse, exchange);
     }
 
-    public void returnResponse(String content, HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(200, exchange.getResponseHeaders().size());
-        OutputStream os = exchange.getResponseBody();
-        os.write(content.getBytes());
-        os.close();
+    private Map<String, String> getParameters(String query) {
+        Map<String, String> result = new HashMap<>();
+        for (String param : query.split("&")) {
+            String[] entry = param.split("=");
+            if (entry.length > 1) {
+                result.put(entry[0], entry[1]);
+            } else {
+                result.put(entry[0], "");
+            }
+        }
+        return result;
     }
-
 
 }

@@ -11,10 +11,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 
-public class UserDaoImplTest {
+public class UserRepositoryImplTest {
 
     private List<User> users;
-    private UserDaoImpl userDaoImpl;
+    private UserRepositoryImpl userDaoImpl;
     private HttpResponse httpResponse;
     private final User defaultUser = new User("Iris");
     private User bella = new User("Bella");
@@ -22,7 +22,7 @@ public class UserDaoImplTest {
 
     @Before
     public void setup() {
-        userDaoImpl = new UserDaoImpl();
+        userDaoImpl = new UserRepositoryImpl();
         httpResponse = new HttpResponse(404, "");
         users = new ArrayList<>();
         users.add(defaultUser);
@@ -44,7 +44,7 @@ public class UserDaoImplTest {
     public void giveNonDefaultUserNameShouldDelete() {
         String nameToDelete = "Bella";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
-        HttpResponse expected = new HttpResponse(200, Constant.USER_DELETED);
+        HttpResponse expected = new HttpResponse(200, "User " + nameToDelete + " deleted");
         assertThat(httpResponse, equalTo(expected));
         assertFalse(users.contains(this.bella));
     }
@@ -61,7 +61,7 @@ public class UserDaoImplTest {
     public void giveNonExistUserNameShouldCreateUser() {
         String nameToCreate = "Lee";
         httpResponse = userDaoImpl.create(users, nameToCreate);
-        HttpResponse expected = new HttpResponse(200, Constant.USER_CREATED);
+        HttpResponse expected = new HttpResponse(200, "User " + nameToCreate + " created");
         assertThat(httpResponse, equalTo(expected));
         assertThat(users.get(3).getName(), equalTo("Lee"));
     }
@@ -96,7 +96,7 @@ public class UserDaoImplTest {
         String nameToUpdate = users.get(2).getName();
         String newName = "Jane";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = new HttpResponse(200, Constant.USER_UPDATED);
+        HttpResponse expected = new HttpResponse(200, "User " + nameToUpdate + " updated to " + newName);
         assertThat(httpResponse, equalTo(expected));
         assertThat(users.get(2).getName(), equalTo("Jane"));
     }

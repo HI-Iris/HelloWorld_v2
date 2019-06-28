@@ -6,9 +6,6 @@ public class Constant {
     public static final String ERROR_USER_EXIST = "User already exist in the list";
     public static final String ERROR_UNEXPECTED = "Unexpected error";
 
-    public static final String USER_CREATED = "created";
-    public static final String USER_READ = "read";
-    public static final String USER_UPDATED = "updated";
-    public static final String USER_DELETED = "deleted";
+    public static final HttpResponse RESP_NOT_IMPLEMENTE = new HttpResponse(501, "Request Not Implemented");
 
 }

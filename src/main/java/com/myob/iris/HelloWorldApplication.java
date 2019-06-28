@@ -15,7 +15,7 @@ public class HelloWorldApplication {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new GreetingHandler(users));
-        server.createContext("/users", new UserHandler(users));
+        server.createContext("/users", new UserHandler(users, new UserRepositoryImpl()));
         server.setExecutor(null);
         server.start();
     }

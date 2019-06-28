@@ -4,11 +4,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
-public class GreetingHandler implements HttpHandler {
+public class GreetingHandler extends HttpResponseSender implements HttpHandler {
     private List<User> users;
 
     public GreetingHandler(List<User> users) {
@@ -16,13 +15,19 @@ public class GreetingHandler implements HttpHandler {
     }
 
     @Override
-    public void handle(HttpExchange t) throws IOException {
-        GreetingBuilder greetingBuilder = new GreetingBuilder();
-        String greeting = greetingBuilder.buildGreeting(this.users, new Date());
-        t.sendResponseHeaders(200, greeting.length());
-        OutputStream os = t.getResponseBody();
-        os.write(greeting.getBytes());
-        os.close();
+    public void handle(HttpExchange exchange) throws IOException {
+        int statusCode;
+        String response;
+        HttpResponse httpResponse;
+        if (exchange.getRequestMethod().equalsIgnoreCase("GET")) {
+            GreetingBuilder greetingBuilder = new GreetingBuilder();
+            response = greetingBuilder.buildGreeting(this.users, new Date());
+            statusCode = 200;
+            httpResponse = new HttpResponse(statusCode, response);
+        } else {
+            httpResponse = Constant.RESP_NOT_IMPLEMENTE;
+        }
+        sendResponse(httpResponse, exchange);
     }
 
 }

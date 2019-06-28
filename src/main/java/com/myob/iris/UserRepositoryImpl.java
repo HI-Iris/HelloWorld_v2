@@ -3,7 +3,7 @@ package com.myob.iris;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserDaoImpl implements UserDao {
+public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public HttpResponse create(List<User> users, String nameToCreate) {
@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
             case User_Not_Exist:
                 User newUser = new User(nameToCreate);
                 users.add(newUser);
-                return new HttpResponse(200, Constant.USER_CREATED);
+                return new HttpResponse(200, "User " + nameToCreate + " created");
             default:
                 return new HttpResponse(404, Constant.ERROR_UNEXPECTED);
         }
@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao {
     public HttpResponse read(List<User> users) {
         List<String> names = users.stream().map(User::getName).collect(Collectors.toList());
         String nameList = String.join(", ", names);
-        return new HttpResponse(200, Constant.USER_READ);
+        return new HttpResponse(200, nameList);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class UserDaoImpl implements UserDao {
                 if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
                     int userIndex = upperCaseName.indexOf(nameToUpdate.toUpperCase());
                     users.get(userIndex).setName(newName);
-                    return new HttpResponse(200, Constant.USER_UPDATED);
+                    return new HttpResponse(200, "User " + nameToUpdate + " updated to " + newName);
                 } else {
                     return new HttpResponse(404, Constant.ERROR_USER_EXIST);
                 }
@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao {
             case User_Exist:
                 int userIndex = upperCaseName.indexOf(nameToDelete.toUpperCase());
                 users.remove(userIndex);
-                return new HttpResponse(200, Constant.USER_DELETED);
+                return new HttpResponse(200, "User " + nameToDelete + " deleted");
             case User_Not_Exist:
                 return new HttpResponse(404, Constant.ERROR_USER_NOT_EXIST);
             default:
@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    private List<String> getUpperCaseNamesFromUsers(List<User> users){
+    private List<String> getUpperCaseNamesFromUsers(List<User> users) {
         return users.stream().map(user -> user.getName().toUpperCase()).collect(Collectors.toList());
     }
 

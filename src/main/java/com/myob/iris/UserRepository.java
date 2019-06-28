@@ -2,7 +2,7 @@ package com.myob.iris;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserRepository {
     HttpResponse create(List<User> users, String nameToCreate);
 
     HttpResponse read(List<User> users);
