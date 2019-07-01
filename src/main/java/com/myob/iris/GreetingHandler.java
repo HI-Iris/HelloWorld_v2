@@ -25,7 +25,7 @@ public class GreetingHandler extends HttpResponseSender implements HttpHandler {
             statusCode = 200;
             httpResponse = new HttpResponse(statusCode, response);
         } else {
-            httpResponse = Constant.RESP_NOT_IMPLEMENTE;
+            httpResponse = Constant.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         }
         sendResponse(httpResponse, exchange);
     }
