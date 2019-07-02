@@ -1,15 +1,10 @@
 package com.myob.iris;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UserHandler extends HttpResponseSender implements HttpHandler {
+public class UserHandler extends HttpResponseSender {
 
     private List<User> users;
     private UserRepositoryImpl userRepository;
@@ -19,11 +14,9 @@ public class UserHandler extends HttpResponseSender implements HttpHandler {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        Optional<Map<String, String>> params = getParameters(exchange);
+    public HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> params) {
         HttpResponse httpResponse;
-        switch (exchange.getRequestMethod().toUpperCase()) {
+        switch (requestMethod.toUpperCase()) {
             case "POST":
                 if (params.isPresent() && params.get().get("name") != null) {
                     httpResponse = userRepository.create(this.users, params.get().get("name"));
@@ -53,24 +46,8 @@ public class UserHandler extends HttpResponseSender implements HttpHandler {
 
                 break;
         }
-        sendResponse(httpResponse, exchange);
+        return httpResponse;
     }
 
-    private Optional<Map<String, String>> getParameters(HttpExchange exchange) {
-        if (exchange.getRequestURI().getQuery() != null) {
-            Map<String, String> result = new HashMap<>();
-            String query = exchange.getRequestURI().getQuery();
-            for (String param : query.split("&")) {
-                String[] entry = param.split("=");
-                if (entry.length > 1) {
-                    result.put(entry[0], entry[1]);
-                } else {
-                    result.put(entry[0], "");
-                }
-            }
-            return Optional.of(result);
-        }
-        return Optional.empty();
-    }
 }
 
