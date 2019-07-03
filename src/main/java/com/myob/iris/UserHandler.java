@@ -18,7 +18,6 @@ public class UserHandler extends HttpResponseSender {
         HttpResponse httpResponse;
         switch (requestMethod.toUpperCase()) {
             case "POST":
-                //TODO isPresent() is it necessary?
                 if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.create(this.users, params.get().get("name"));
                 } else {
@@ -29,14 +28,14 @@ public class UserHandler extends HttpResponseSender {
                 httpResponse = userRepository.read(this.users);
                 break;
             case "DELETE":
-                if (params.isPresent() && params.get().get("name") != null) {
+                if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.delete(this.users, params.get().get("name"));
                 } else {
                     httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             case "PUT":
-                if (params.isPresent() && params.get().get("name") != null && params.get().get("newName") != null) {
+                if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
                     httpResponse = userRepository.update(this.users, params.get().get("name"), params.get().get("newName"));
                 } else {
                     httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
