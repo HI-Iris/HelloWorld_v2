@@ -1,7 +1,5 @@
 package com.myob.iris;
 
-import com.sun.net.httpserver.HttpHandler;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

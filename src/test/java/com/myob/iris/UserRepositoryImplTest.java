@@ -35,7 +35,7 @@ public class UserRepositoryImplTest {
     public void giveDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
@@ -53,7 +53,7 @@ public class UserRepositoryImplTest {
     public void giveNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_NOT_EXIST);
+        HttpResponse expected = Constant.RESPONSE_USER_NOT_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
@@ -70,7 +70,7 @@ public class UserRepositoryImplTest {
     public void giveDefaultUserNameShouldNotCreateUser() {
         String nameToCreate = "iris";
         httpResponse = userDaoImpl.create(users, nameToCreate);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 
@@ -78,7 +78,7 @@ public class UserRepositoryImplTest {
     public void giveExistUserNameShouldNotCreateUser() {
         String nameToCreate = "bella";
         httpResponse = userDaoImpl.create(users, nameToCreate);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_EXIST);
+        HttpResponse expected = Constant.RESPONSE_USER_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
@@ -87,7 +87,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_DEFAULT_USER);
+        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 
@@ -106,7 +106,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_EXIST);
+        HttpResponse expected = Constant.RESPONSE_USER_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
@@ -115,7 +115,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = "Jane";
         String newName = "bella";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = new HttpResponse(404, Constant.ERROR_USER_NOT_EXIST);
+        HttpResponse expected = Constant.RESPONSE_USER_NOT_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 }
