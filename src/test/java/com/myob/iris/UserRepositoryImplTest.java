@@ -32,16 +32,16 @@ public class UserRepositoryImplTest {
 
 
     @Test
-    public void giveDefaultUserNameShouldNotDelete() {
+    public void givenDefaultUserNameShouldNotDelete() {
         String nameToDelete = "Iris";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
-        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
+        HttpResponse expected = HttpResult.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
 
     @Test
-    public void giveNonDefaultUserNameShouldDelete() {
+    public void givenNonDefaultUserNameShouldDelete() {
         String nameToDelete = "Bella";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
         HttpResponse expected = new HttpResponse(200, "User " + nameToDelete + " deleted");
@@ -50,15 +50,15 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void giveNonExistUserNameShouldNotDelete() {
+    public void givenNonExistUserNameShouldNotDelete() {
         String nameToDelete = "Jane";
         httpResponse = userDaoImpl.delete(users, nameToDelete);
-        HttpResponse expected = Constant.RESPONSE_USER_NOT_EXIST;
+        HttpResponse expected = HttpResult.RESPONSE_USER_NOT_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void giveNonExistUserNameShouldCreateUser() {
+    public void givenNonExistUserNameShouldCreateUser() {
         String nameToCreate = "Lee";
         httpResponse = userDaoImpl.create(users, nameToCreate);
         HttpResponse expected = new HttpResponse(200, "User " + nameToCreate + " created");
@@ -67,32 +67,32 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void giveDefaultUserNameShouldNotCreateUser() {
+    public void givenDefaultUserNameShouldNotCreateUser() {
         String nameToCreate = "iris";
         httpResponse = userDaoImpl.create(users, nameToCreate);
-        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
+        HttpResponse expected = HttpResult.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void giveExistUserNameShouldNotCreateUser() {
+    public void givenExistUserNameShouldNotCreateUser() {
         String nameToCreate = "bella";
         httpResponse = userDaoImpl.create(users, nameToCreate);
-        HttpResponse expected = Constant.RESPONSE_USER_EXIST;
+        HttpResponse expected = HttpResult.RESPONSE_USER_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void giveDefaultUserShouldNotUpdate() {
+    public void givenDefaultUserShouldNotUpdate() {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = Constant.RESPONSE_DEFAULT_USER;
+        HttpResponse expected = HttpResult.RESPONSE_DEFAULT_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void giveExistUserAndNewNameShouldUpdate() {
+    public void givenExistUserAndNewNameShouldUpdate() {
         String nameToUpdate = users.get(2).getName();
         String newName = "Jane";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
@@ -102,20 +102,20 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void giveExistUserAndExistNameShouldNotUpdate() {
+    public void givenExistUserAndExistNameShouldNotUpdate() {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = Constant.RESPONSE_USER_EXIST;
+        HttpResponse expected = HttpResult.RESPONSE_USER_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void giveNotExistUserShouldNotUpdate() {
+    public void givenNotExistUserShouldNotUpdate() {
         String nameToUpdate = "Jane";
         String newName = "bella";
         httpResponse = userDaoImpl.update(users, nameToUpdate, newName);
-        HttpResponse expected = Constant.RESPONSE_USER_NOT_EXIST;
+        HttpResponse expected = HttpResult.RESPONSE_USER_NOT_EXIST;
         assertThat(httpResponse, equalTo(expected));
     }
 }

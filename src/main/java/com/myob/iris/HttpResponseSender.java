@@ -14,8 +14,16 @@ public abstract class HttpResponseSender implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        HttpResponse httpResponse = getHttpResponse(requestMethod, getParameters(exchange.getRequestURI().getQuery()));
+        Optional<Map<String, String>> parameters = getParameters(exchange.getRequestURI().getQuery());
+        HttpResponse httpResponse = getHttpResponse(requestMethod, parameters);
         sendResponse(httpResponse, exchange);
+    }
+
+    private void sendResponse(HttpResponse response, HttpExchange exchange) throws IOException {
+        exchange.sendResponseHeaders(response.getStatusCode(), response.getResponse().length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(response.getResponse().getBytes());
+        os.close();
     }
 
     private Optional<Map<String, String>> getParameters(String queryString) {
@@ -34,12 +42,5 @@ public abstract class HttpResponseSender implements HttpHandler {
         return Optional.empty();
     }
 
-    public abstract HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> params);
-
-    private void sendResponse(HttpResponse response, HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(response.getStatusCode(), response.getResponse().length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getResponse().getBytes());
-        os.close();
-    }
+    public abstract HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> parameters);
 }

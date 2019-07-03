@@ -22,35 +22,35 @@ public class NameValidatorTest {
     }
 
     @Test
-    public void giveDefaultUserInLowerCaseShouldReturnDefault() {
+    public void givenDefaultUserInLowerCaseShouldReturnDefault() {
         String nameToCheck = "iris";
         this.nameCheckResult = NameValidator.checkName(names, nameToCheck);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.Default_User));
     }
 
     @Test
-    public void giveDefaultUserInRandomCaseShouldReturnDefault() {
+    public void givenDefaultUserInRandomCaseShouldReturnDefault() {
         String nameToCheck = "iRiS";
         this.nameCheckResult = NameValidator.checkName(names, nameToCheck);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.Default_User));
     }
 
     @Test
-    public void giveUserInLowerCaseInListShouldReturnExist() {
+    public void givenUserInLowerCaseInListShouldReturnExist() {
         String nameToCheck = "bella";
         this.nameCheckResult = NameValidator.checkName(names, nameToCheck);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Exist));
     }
 
     @Test
-    public void giveUserInRandomCaseInListShouldReturnExist() {
+    public void givenUserInRandomCaseInListShouldReturnExist() {
         String nameToCheck = "bEllA";
         this.nameCheckResult = NameValidator.checkName(names, nameToCheck);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Exist));
     }
 
     @Test
-    public void giveUserNotInListShouldReturnNotExist() {
+    public void givenUserNotInListShouldReturnNotExist() {
         String nameToCheck = "no in list";
         this.nameCheckResult = NameValidator.checkName(names, nameToCheck);
         assertThat(this.nameCheckResult, equalTo(NameCheckResult.User_Not_Exist));

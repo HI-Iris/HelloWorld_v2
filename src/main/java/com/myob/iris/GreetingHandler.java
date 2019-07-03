@@ -22,7 +22,7 @@ public class GreetingHandler extends HttpResponseSender {
             statusCode = 200;
             httpResponse = new HttpResponse(statusCode, response);
         } else {
-            httpResponse = Constant.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+            httpResponse = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         }
         return httpResponse;
     }

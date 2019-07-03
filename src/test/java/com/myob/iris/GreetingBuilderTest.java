@@ -24,14 +24,14 @@ public class GreetingBuilderTest {
     }
 
     @Test
-    public void giveOneUserShouldReturnFormattedGreeting() {
+    public void givenOneUserShouldReturnFormattedGreeting() {
         String expected = "Hello Iris - the time on the server is 10:50am on 21 June 2019";
         String actual = greetingBuilder.buildGreeting(users, testDate);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void giveOneUserShouldReturnUserNameAndServerTime() {
+    public void givenOneUserShouldReturnUserNameAndServerTime() {
         testDate.setTime(1461078834000L);
         String expected = "Hello Iris - the time on the server is 01:13am on 20 April 2016";
         String actual = greetingBuilder.buildGreeting(users, testDate);
@@ -39,7 +39,7 @@ public class GreetingBuilderTest {
     }
 
     @Test
-    public void giveOneUserShouldReturnUserNameAndServerTimePm() {
+    public void givenOneUserShouldReturnUserNameAndServerTimePm() {
         testDate.setTime(1561088949000L);
         String expected = "Hello Iris - the time on the server is 01:49pm on 21 June 2019";
         String actual = greetingBuilder.buildGreeting(users, testDate);
@@ -47,7 +47,7 @@ public class GreetingBuilderTest {
     }
 
     @Test
-    public void giveTwoUsersShouldReturnNameAndNameAndServerTime() {
+    public void givenTwoUsersShouldReturnNameAndNameAndServerTime() {
         users.add(new User("Paul"));
         String expected = "Hello Iris and Paul - the time on the server is 10:50am on 21 June 2019";
         String actual = greetingBuilder.buildGreeting(users, testDate);
@@ -55,7 +55,7 @@ public class GreetingBuilderTest {
     }
 
     @Test
-    public void giveThreeUsersShouldReturnNameNameAndNameAndServerTime() {
+    public void givenThreeUsersShouldReturnNameNameAndNameAndServerTime() {
         users.add(new User("Bella"));
         users.add(new User("Paul"));
         String expected = "Hello Iris, Bella and Paul - the time on the server is 10:50am on 21 June 2019";
