@@ -7,20 +7,19 @@ import java.util.Optional;
 
 public class GreetingHandler extends HttpResponseSender {
     private List<User> users;
+    private GreetingBuilder greetingBuilder;
 
-    public GreetingHandler(List<User> users) {
+    public GreetingHandler(List<User> users, GreetingBuilder greetingBuilder) {
         this.users = users;
+        this.greetingBuilder = greetingBuilder;
     }
 
     public HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> params) {
         String response;
-        int statusCode;
         HttpResponse httpResponse;
         if (requestMethod.equalsIgnoreCase("GET")) {
-            GreetingBuilder greetingBuilder = new GreetingBuilder();
             response = greetingBuilder.buildGreeting(this.users, new Date());
-            statusCode = 200;
-            httpResponse = new HttpResponse(statusCode, response);
+            httpResponse = new HttpResponse(200, response);
         } else {
             httpResponse = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         }
