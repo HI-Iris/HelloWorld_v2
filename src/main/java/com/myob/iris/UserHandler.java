@@ -27,16 +27,16 @@ public class UserHandler extends HttpResponseSender {
             case "GET":
                 httpResponse = userRepository.read(this.users);
                 break;
-            case "DELETE":
-                if (params.isPresent() && params.get().containsKey("name")) {
-                    httpResponse = userRepository.delete(this.users, params.get().get("name"));
+            case "PUT":
+                if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
+                    httpResponse = userRepository.update(this.users, params.get().get("name"), params.get().get("newName"));
                 } else {
                     httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
-            case "PUT":
-                if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
-                    httpResponse = userRepository.update(this.users, params.get().get("name"), params.get().get("newName"));
+            case "DELETE":
+                if (params.isPresent() && params.get().containsKey("name")) {
+                    httpResponse = userRepository.delete(this.users, params.get().get("name"));
                 } else {
                     httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
                 }
