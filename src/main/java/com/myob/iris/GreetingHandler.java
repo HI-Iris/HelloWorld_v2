@@ -21,7 +21,7 @@ public class GreetingHandler extends Handler {
             response = greetingBuilder.buildGreeting(this.users, new Date());
             httpResponse = new HttpResponse(200, response);
         } else {
-            httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+            httpResponse = BuildInHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         }
         return httpResponse;
     }

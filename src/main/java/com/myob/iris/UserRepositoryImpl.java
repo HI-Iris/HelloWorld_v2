@@ -11,15 +11,15 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToCreate);
         switch (nameCheckResult) {
             case Default_User:
-                return BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+                return BuildInHttpResponse.RESPONSE_DEFAULT_USER;
             case User_Exist:
-                return BuildinHttpResponse.RESPONSE_USER_EXIST;
+                return BuildInHttpResponse.RESPONSE_USER_EXIST;
             case User_Not_Exist:
                 User newUser = new User(nameToCreate);
                 users.add(newUser);
                 return new HttpResponse(200, "User " + nameToCreate + " created");
             default:
-                return BuildinHttpResponse.RESPONSE_UNEXPECTED;
+                return BuildInHttpResponse.RESPONSE_UNEXPECTED;
         }
     }
 
@@ -36,9 +36,9 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToUpdate);
         switch (nameCheckResult) {
             case Default_User:
-                return BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+                return BuildInHttpResponse.RESPONSE_DEFAULT_USER;
             case User_Not_Exist:
-                return BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
+                return BuildInHttpResponse.RESPONSE_USER_NOT_EXIST;
             case User_Exist:
                 NameCheckResult newNameCheckResult = NameValidator.checkName(upperCaseName, newName);
                 if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
@@ -46,10 +46,10 @@ public class UserRepositoryImpl implements UserRepository {
                     users.get(userIndex).setName(newName);
                     return new HttpResponse(200, "User " + nameToUpdate + " updated to " + newName);
                 } else {
-                    return BuildinHttpResponse.RESPONSE_USER_EXIST;
+                    return BuildInHttpResponse.RESPONSE_USER_EXIST;
                 }
             default:
-                return BuildinHttpResponse.RESPONSE_UNEXPECTED;
+                return BuildInHttpResponse.RESPONSE_UNEXPECTED;
         }
     }
 
@@ -59,15 +59,15 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToDelete);
         switch (nameCheckResult) {
             case Default_User:
-                return BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+                return BuildInHttpResponse.RESPONSE_DEFAULT_USER;
             case User_Exist:
                 int userIndex = upperCaseName.indexOf(nameToDelete.toUpperCase());
                 users.remove(userIndex);
                 return new HttpResponse(200, "User " + nameToDelete + " deleted");
             case User_Not_Exist:
-                return BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
+                return BuildInHttpResponse.RESPONSE_USER_NOT_EXIST;
             default:
-                return BuildinHttpResponse.RESPONSE_UNEXPECTED;
+                return BuildInHttpResponse.RESPONSE_UNEXPECTED;
         }
     }
 

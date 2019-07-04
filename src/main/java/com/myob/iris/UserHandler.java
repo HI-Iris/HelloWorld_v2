@@ -21,7 +21,7 @@ public class UserHandler extends Handler {
                 if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.create(this.users, params.get().get("name"));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             case "GET":
@@ -31,18 +31,18 @@ public class UserHandler extends Handler {
                 if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
                     httpResponse = userRepository.update(this.users, params.get().get("name"), params.get().get("newName"));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             case "DELETE":
                 if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.delete(this.users, params.get().get("name"));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             default:
-                httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+                httpResponse = BuildInHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
                 break;
         }
         return httpResponse;
