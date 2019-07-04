@@ -7,43 +7,48 @@ import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.*;
 
 public class GreetingHandlerTest {
     private static List<User> users;
     private static GreetingHandler greetingHandler;
+    private static GreetingBuilder greetingBuilder;
+    private static Date date;
 
     @Before
     public void setup() {
         users = new ArrayList<>();
         users.add(new User("Iris"));
-        greetingHandler = new GreetingHandler(users,new GreetingBuilder());
+        greetingBuilder = mock(GreetingBuilder.class);
+        greetingHandler = new GreetingHandler(users, greetingBuilder);
+        date = new Date();
     }
 
     @Test
-    public void givenPostRequestShouldReturnRequestNotImplResponse(){
+    public void givenPostRequestShouldReturnRequestNotImplResponse() {
         HttpResponse actual = greetingHandler.getHttpResponse("POST", Optional.empty());
         HttpResponse expected = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void givenPutRequestShouldReturnRequestNotImplResponse(){
+    public void givenPutRequestShouldReturnRequestNotImplResponse() {
         HttpResponse actual = greetingHandler.getHttpResponse("PUT", Optional.empty());
         HttpResponse expected = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void givenDeleteRequestShouldReturnRequestNotImplResponse(){
+    public void givenDeleteRequestShouldReturnRequestNotImplResponse() {
         HttpResponse actual = greetingHandler.getHttpResponse("DELETE", Optional.empty());
         HttpResponse expected = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void givenGetRequestShouldReturn200StatusCode(){
-        HttpResponse actual = greetingHandler.getHttpResponse("GET", Optional.empty());
-        int expected = 200;
-        assertThat(actual.getStatusCode(), equalTo(expected));
+    //TODO why I cannot put new Date()
+    public void givenGetRequestShouldCallBuildGreeting() {
+        greetingHandler.getHttpResponse("GET", Optional.empty());
+        verify(greetingBuilder, times(1)).buildGreeting(users, date);
     }
 }
