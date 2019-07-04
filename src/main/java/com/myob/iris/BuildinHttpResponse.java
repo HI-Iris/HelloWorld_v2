@@ -1,6 +1,6 @@
 package com.myob.iris;
 
-public class HttpResult {
+public class BuildinHttpResponse {
     public static final HttpResponse RESPONSE_DEFAULT_USER = new HttpResponse(400, "Default user cannot be changed");
     public static final HttpResponse RESPONSE_USER_NOT_EXIST = new HttpResponse(400, "User doesn't exist");
     public static final HttpResponse RESPONSE_USER_EXIST = new HttpResponse(400, "User already exist in the list");

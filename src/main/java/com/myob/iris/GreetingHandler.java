@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class GreetingHandler extends HttpResponseSender {
+public class GreetingHandler extends Handler {
     private List<User> users;
     private GreetingBuilder greetingBuilder;
 
@@ -21,7 +21,7 @@ public class GreetingHandler extends HttpResponseSender {
             response = greetingBuilder.buildGreeting(this.users, new Date());
             httpResponse = new HttpResponse(200, response);
         } else {
-            httpResponse = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+            httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         }
         return httpResponse;
     }

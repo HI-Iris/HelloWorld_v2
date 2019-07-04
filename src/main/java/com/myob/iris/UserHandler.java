@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class UserHandler extends HttpResponseSender {
+public class UserHandler extends Handler {
 
     private List<User> users;
     private UserRepository userRepository;
@@ -21,7 +21,7 @@ public class UserHandler extends HttpResponseSender {
                 if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.create(this.users, params.get().get("name"));
                 } else {
-                    httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             case "GET":
@@ -31,18 +31,18 @@ public class UserHandler extends HttpResponseSender {
                 if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
                     httpResponse = userRepository.update(this.users, params.get().get("name"), params.get().get("newName"));
                 } else {
-                    httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             case "DELETE":
                 if (params.isPresent() && params.get().containsKey("name")) {
                     httpResponse = userRepository.delete(this.users, params.get().get("name"));
                 } else {
-                    httpResponse = HttpResult.RESPONSE_PARAMETER_NOT_MATCH;
+                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
                 break;
             default:
-                httpResponse = HttpResult.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+                httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
                 break;
         }
         return httpResponse;

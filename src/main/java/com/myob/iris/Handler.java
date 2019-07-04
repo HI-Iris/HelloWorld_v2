@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class HttpResponseSender implements HttpHandler {
+public abstract class Handler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -18,6 +18,8 @@ public abstract class HttpResponseSender implements HttpHandler {
         HttpResponse httpResponse = getHttpResponse(requestMethod, parameters);
         sendResponse(httpResponse, exchange);
     }
+
+    public abstract HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> parameters);
 
     private void sendResponse(HttpResponse response, HttpExchange exchange) throws IOException {
         exchange.sendResponseHeaders(response.getStatusCode(), response.getResponse().length());
@@ -41,6 +43,4 @@ public abstract class HttpResponseSender implements HttpHandler {
         }
         return Optional.empty();
     }
-
-    public abstract HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> parameters);
 }
