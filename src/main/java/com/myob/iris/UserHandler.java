@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class UserHandler extends Handler implements ParameterGetter{
+public class UserHandler extends Handler implements ParameterGetter {
 
     private UserRepository userRepository;
 
@@ -46,7 +46,7 @@ public class UserHandler extends Handler implements ParameterGetter{
                 break;
             case "DELETE":
                 if (params.isPresent() && params.get().containsKey("name")) {
-                    httpResponse = userRepository.delete( params.get().get("name"));
+                    httpResponse = userRepository.delete(params.get().get("name"));
                 } else {
                     httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
                 }
@@ -60,20 +60,20 @@ public class UserHandler extends Handler implements ParameterGetter{
 
     @Override
     public Optional<Map<String, String>> getParameters(String queryString) {
-            if (queryString != null) {
-                Map<String, String> result = new HashMap<>();
-                for (String param : queryString.split("&")) {
-                    String[] entry = param.split("=");
-                    if (entry.length > 1) {
-                        result.put(entry[0], entry[1]);
-                    } else {
-                        result.put(entry[0], "");
-                    }
+        if (queryString != null) {
+            Map<String, String> result = new HashMap<>();
+            for (String param : queryString.split("&")) {
+                String[] entry = param.split("=");
+                if (entry.length > 1) {
+                    result.put(entry[0], entry[1]);
+                } else {
+                    result.put(entry[0], "");
                 }
-                return Optional.of(result);
             }
-            return Optional.empty();
+            return Optional.of(result);
         }
+        return Optional.empty();
+    }
 
 }
 
