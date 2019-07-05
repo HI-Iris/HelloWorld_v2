@@ -12,10 +12,12 @@ public class HelloWorldApplication {
         final User defaultUser = new User("Iris");
         List<User> users = new ArrayList<>();
         users.add(defaultUser);
+        UserRepository userRepository = new UserRepositoryImpl(users);
+        GreetingBuilder greetingBuilder = new GreetingBuilder(users);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-        server.createContext("/", new GreetingHandler(users, new GreetingBuilder()));
-        server.createContext("/users", new UserHandler(users, new UserRepositoryImpl()));
+        server.createContext("/", new GreetingHandler(greetingBuilder));
+        server.createContext("/users", new UserHandler(userRepository));
         server.setExecutor(null);
         server.start();
     }

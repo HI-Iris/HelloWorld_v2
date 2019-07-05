@@ -6,7 +6,13 @@ import java.util.List;
 
 public class GreetingBuilder {
 
-    public String buildGreeting(List<User> users, Date date) {
+    List<User> users;
+
+    public GreetingBuilder(List<User> users) {
+        this.users = users;
+    }
+
+    public String buildGreeting(Date date) {
         return "Hello " + formatUserName(users) + " - the time on the server is " + formatDate(date);
     }
 

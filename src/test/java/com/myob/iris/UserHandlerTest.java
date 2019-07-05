@@ -25,7 +25,7 @@ public class UserHandlerTest {
         userRepository = mock(UserRepositoryImpl.class);
         users = new ArrayList<>();
         users.add(new User("Iris"));
-        userHandler = new UserHandler(users, userRepository);
+        userHandler = new UserHandler(userRepository);
         wrongParam = Optional.of(new HashMap<>());
         correctParam = Optional.of(new HashMap<>());
         correctParam.get().put("name", "Bella");
@@ -35,81 +35,81 @@ public class UserHandlerTest {
     @Test
     public void givenPostRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("POST", Optional.empty());
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPostRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("POST", wrongParam);
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenDeleteRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("DELETE", Optional.empty());
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenDeleteRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("DELETE", wrongParam);
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPutRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("PUT", Optional.empty());
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPutRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("PUT", wrongParam);
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPatchRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("PATCH", Optional.empty());
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPatchRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.getHttpResponse("PATCH", wrongParam);
-        HttpResponse expected = BuildInHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPostRequestWithCorrectParameterShouldCallCreateFunction() {
         userHandler.getHttpResponse("POST", correctParam);
-        verify(userRepository, times(1)).create(users, correctParam.get().get("name"));
+        verify(userRepository, times(1)).create(correctParam.get().get("name"));
     }
 
     @Test
     public void givenGetRequestShouldCallReadFunction() {
         userHandler.getHttpResponse("GET", correctParam);
-        verify(userRepository, times(1)).read(users);
+        verify(userRepository, times(1)).read();
     }
 
     @Test
     public void givenPutRequestWithCorrectParameterShouldCallCreateFunction() {
         userHandler.getHttpResponse("PUT", correctParam);
-        verify(userRepository, times(1)).update(users, correctParam.get().get("name"), correctParam.get().get("newName"));
+        verify(userRepository, times(1)).update(correctParam.get().get("name"), correctParam.get().get("newName"));
     }
 
     @Test
     public void givenDeleteRequestWithCorrectParameterShouldCallCreateFunction() {
         userHandler.getHttpResponse("DELETE", correctParam);
-        verify(userRepository, times(1)).delete(users, correctParam.get().get("name"));
+        verify(userRepository, times(1)).delete(correctParam.get().get("name"));
     }
 
 }

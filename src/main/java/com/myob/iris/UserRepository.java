@@ -1,13 +1,11 @@
 package com.myob.iris;
 
-import java.util.List;
-
 public interface UserRepository {
-    HttpResponse create(List<User> users, String nameToCreate);
+    HttpResponse create(String nameToCreate);
 
-    HttpResponse read(List<User> users);
+    HttpResponse read();
 
-    HttpResponse update(List<User> users, String nameToUpdate, String newName);
+    HttpResponse update(String nameToUpdate, String newName);
 
-    HttpResponse delete(List<User> users, String nameToDelete);
+    HttpResponse delete(String nameToDelete);
 }
