@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class UserHandler extends Handler implements ParameterGetter {
+public class UserHandler extends Handler {
 
     private UserRepository userRepository;
 
@@ -58,8 +58,7 @@ public class UserHandler extends Handler implements ParameterGetter {
         return httpResponse;
     }
 
-    @Override
-    public Optional<Map<String, String>> getParameters(String queryString) {
+    private Optional<Map<String, String>> getParameters(String queryString) {
         if (queryString != null) {
             Map<String, String> result = new HashMap<>();
             for (String param : queryString.split("&")) {

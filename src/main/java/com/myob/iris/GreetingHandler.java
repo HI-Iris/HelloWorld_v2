@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class GreetingHandler extends Handler {
-    private GreetingBuilder greetingBuilder;
+    private GreetingService greetingService;
 
-    public GreetingHandler(GreetingBuilder greetingBuilder) {
-        this.greetingBuilder = greetingBuilder;
+    public GreetingHandler(GreetingService greetingService) {
+        this.greetingService = greetingService;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class GreetingHandler extends Handler {
         String response;
         HttpResponse httpResponse;
         if (requestMethod.equalsIgnoreCase("GET")) {
-            response = greetingBuilder.buildGreeting(new Date());
+            response = greetingService.buildGreeting(new Date());
             httpResponse = new HttpResponse(200, response);
         } else {
             httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;

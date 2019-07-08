@@ -4,11 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class GreetingBuilder {
+public class GreetingService {
 
     private List<User> users;
 
-    public GreetingBuilder(List<User> users) {
+    public GreetingService(List<User> users) {
         this.users = users;
     }
 

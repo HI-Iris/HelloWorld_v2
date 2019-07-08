@@ -12,14 +12,14 @@ import static org.mockito.Mockito.*;
 public class GreetingHandlerTest {
     private static List<User> users;
     private static GreetingHandler greetingHandler;
-    private static GreetingBuilder greetingBuilder;
+    private static GreetingService greetingService;
 
     @Before
     public void setup() {
         users = new ArrayList<>();
         users.add(new User("Iris"));
-        greetingBuilder = mock(GreetingBuilder.class);
-        greetingHandler = new GreetingHandler(greetingBuilder);
+        greetingService = mock(GreetingService.class);
+        greetingHandler = new GreetingHandler(greetingService);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class GreetingHandlerTest {
 
     @Test
     public void givenGetRequestShouldCallBuildGreeting() {
-        when(greetingBuilder.buildGreeting(any())).thenReturn("Iris");
+        when(greetingService.buildGreeting(any())).thenReturn("Iris");
         HttpResponse actual = greetingHandler.getHttpResponse("GET", Optional.empty());
         HttpResponse expected = new HttpResponse(200, "Iris");
         assertThat(actual, equalTo(expected));
