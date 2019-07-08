@@ -30,35 +30,8 @@ public class UserRepositoryImplTest {
         userRepository = new UserRepositoryImpl(users);
     }
 
-
     @Test
-    public void givenDefaultUserNameShouldNotDelete() {
-        String nameToDelete = "Iris";
-        httpResponse = userRepository.delete(nameToDelete);
-        HttpResponse expected = BuildinHttpResponse.RESPONSE_DEFAULT_USER;
-        assertThat(httpResponse, equalTo(expected));
-        assertTrue(users.contains(this.defaultUser));
-    }
-
-    @Test
-    public void givenNonDefaultUserNameShouldDelete() {
-        String nameToDelete = "Bella";
-        httpResponse = userRepository.delete(nameToDelete);
-        HttpResponse expected = new HttpResponse(200, "User " + nameToDelete + " deleted");
-        assertThat(httpResponse, equalTo(expected));
-        assertFalse(users.contains(this.bella));
-    }
-
-    @Test
-    public void givenNonExistUserNameShouldNotDelete() {
-        String nameToDelete = "Jane";
-        httpResponse = userRepository.delete(nameToDelete);
-        HttpResponse expected = BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
-        assertThat(httpResponse, equalTo(expected));
-    }
-
-    @Test
-    public void givenNonExistUserNameShouldCreateUser() {
+    public void givenNonExistUserNameShouldCreateUserAndReturnSuccessfulResponse() {
         String nameToCreate = "Lee";
         httpResponse = userRepository.create(nameToCreate);
         HttpResponse expected = new HttpResponse(200, "User " + nameToCreate + " created");
@@ -67,7 +40,7 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void givenDefaultUserNameShouldNotCreateUser() {
+    public void givenDefaultUserNameShouldNotCreateUserAndReturnDefaultUserResponse() {
         String nameToCreate = "iris";
         httpResponse = userRepository.create(nameToCreate);
         HttpResponse expected = BuildinHttpResponse.RESPONSE_DEFAULT_USER;
@@ -75,7 +48,7 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void givenExistUserNameShouldNotCreateUser() {
+    public void givenExistUserNameShouldNotCreateUserAndReturnUserExistResponse() {
         String nameToCreate = "bella";
         httpResponse = userRepository.create(nameToCreate);
         HttpResponse expected = BuildinHttpResponse.RESPONSE_USER_EXIST;
@@ -83,16 +56,23 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void givenDefaultUserShouldNotUpdate() {
-        String nameToUpdate = defaultUser.getName();
-        String newName = "Jane";
-        httpResponse = userRepository.update(nameToUpdate, newName);
-        HttpResponse expected = BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+    public void givenNumericUserNameShouldNotCreateUserAndReturnInvalidUserResponse() {
+        String nameToCreate = "bella123";
+        httpResponse = userRepository.create(nameToCreate);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_INVALID_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 
     @Test
-    public void givenExistUserAndNewNameShouldUpdate() {
+    public void callReadFunctionShouldReturnSuccessfulResponse() {
+        httpResponse = userRepository.read();
+        String userNameList = "Iris, Bella, Paul";
+        HttpResponse expected = new HttpResponse(200, userNameList);
+        assertThat(httpResponse, equalTo(expected));
+    }
+
+    @Test
+    public void givenExistUserAndNewNameShouldUpdateAndReturnSuccessfulResponse() {
         String nameToUpdate = users.get(2).getName();
         String newName = "Jane";
         httpResponse = userRepository.update(nameToUpdate, newName);
@@ -102,7 +82,16 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void givenExistUserAndExistNameShouldNotUpdate() {
+    public void givenDefaultUserShouldNotUpdateAndReturnDefaultUserResponse() {
+        String nameToUpdate = defaultUser.getName();
+        String newName = "Jane";
+        httpResponse = userRepository.update(nameToUpdate, newName);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+        assertThat(httpResponse, equalTo(expected));
+    }
+
+    @Test
+    public void givenExistUserAndExistNameShouldNotUpdateAndReturnUserExistResponse() {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         httpResponse = userRepository.update(nameToUpdate, newName);
@@ -111,11 +100,54 @@ public class UserRepositoryImplTest {
     }
 
     @Test
-    public void givenNotExistUserShouldNotUpdate() {
+    public void givenNotExistUserShouldNotUpdateAndReturnUserNotExistResponse() {
         String nameToUpdate = "Jane";
         String newName = "bella";
         httpResponse = userRepository.update(nameToUpdate, newName);
         HttpResponse expected = BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
+        assertThat(httpResponse, equalTo(expected));
+    }
+
+    @Test
+    public void givenNumericUserNameShouldNotUpdateAndReturnInvalidUserResponse() {
+        String nameToUpdate = "Jane123";
+        String newName = "bella";
+        httpResponse = userRepository.update(nameToUpdate, newName);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_INVALID_USER;
+        assertThat(httpResponse, equalTo(expected));
+    }
+
+    @Test
+    public void givenNonDefaultUserNameShouldDeleteAndReturnSuccessfulResponse() {
+        String nameToDelete = "Bella";
+        httpResponse = userRepository.delete(nameToDelete);
+        HttpResponse expected = new HttpResponse(200, "User " + nameToDelete + " deleted");
+        assertThat(httpResponse, equalTo(expected));
+        assertFalse(users.contains(this.bella));
+    }
+
+    @Test
+    public void givenDefaultUserNameShouldNotDeleteAndReturnDefaultUserResponse() {
+        String nameToDelete = "Iris";
+        httpResponse = userRepository.delete(nameToDelete);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_DEFAULT_USER;
+        assertThat(httpResponse, equalTo(expected));
+        assertTrue(users.contains(this.defaultUser));
+    }
+
+    @Test
+    public void givenNonExistUserNameShouldNotDeleteAndReturnUserNotExistResponse() {
+        String nameToDelete = "Jane";
+        httpResponse = userRepository.delete(nameToDelete);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
+        assertThat(httpResponse, equalTo(expected));
+    }
+
+    @Test
+    public void givenNumericUserNameShouldNotDeleteAndReturnInvalidUserResponse() {
+        String nameToDelete = "Jane123";
+        httpResponse = userRepository.delete(nameToDelete);
+        HttpResponse expected = BuildinHttpResponse.RESPONSE_INVALID_USER;
         assertThat(httpResponse, equalTo(expected));
     }
 }

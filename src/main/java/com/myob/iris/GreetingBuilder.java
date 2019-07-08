@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GreetingBuilder {
 
-    List<User> users;
+    private List<User> users;
 
     public GreetingBuilder(List<User> users) {
         this.users = users;

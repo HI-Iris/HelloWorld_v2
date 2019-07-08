@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserRepositoryImpl implements UserRepository {
-    List<User> users;
+    private List<User> users;
 
     public UserRepositoryImpl(List<User> users) {
         this.users = users;
@@ -23,6 +23,8 @@ public class UserRepositoryImpl implements UserRepository {
                 User newUser = new User(nameToCreate);
                 users.add(newUser);
                 return new HttpResponse(200, "User " + nameToCreate + " created");
+            case Invalid_User:
+                return BuildinHttpResponse.RESPONSE_INVALID_USER;
             default:
                 return BuildinHttpResponse.RESPONSE_UNEXPECTED;
         }
@@ -53,6 +55,8 @@ public class UserRepositoryImpl implements UserRepository {
                 } else {
                     return BuildinHttpResponse.RESPONSE_USER_EXIST;
                 }
+            case Invalid_User:
+                return BuildinHttpResponse.RESPONSE_INVALID_USER;
             default:
                 return BuildinHttpResponse.RESPONSE_UNEXPECTED;
         }
@@ -71,6 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
                 return new HttpResponse(200, "User " + nameToDelete + " deleted");
             case User_Not_Exist:
                 return BuildinHttpResponse.RESPONSE_USER_NOT_EXIST;
+            case Invalid_User:
+                return BuildinHttpResponse.RESPONSE_INVALID_USER;
             default:
                 return BuildinHttpResponse.RESPONSE_UNEXPECTED;
         }
