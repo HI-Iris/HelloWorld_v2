@@ -1,11 +1,11 @@
 package com.myob.iris;
 
 public interface UserRepository {
-    HttpResponse create(String nameToCreate);
+    String create(String nameToCreate);
 
-    HttpResponse read();
+    String read();
 
-    HttpResponse update(String nameToUpdate, String newName);
+    String update(String nameToUpdate, String newName);
 
-    HttpResponse delete(String nameToDelete);
+    String delete(String nameToDelete);
 }

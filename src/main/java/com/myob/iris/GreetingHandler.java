@@ -4,8 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
 
 public class GreetingHandler extends Handler {
     private GreetingService greetingService;
@@ -17,21 +15,18 @@ public class GreetingHandler extends Handler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
-        HttpResponse httpResponse = getHttpResponse(requestMethod, Optional.empty());
+        HttpResponse httpResponse = fulfilRequest(requestMethod);
         super.sendResponse(httpResponse, exchange);
     }
 
-    @Override
-    public HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> parameters) {
-        String response;
-        HttpResponse httpResponse;
+    private HttpResponse fulfilRequest(String requestMethod) {
+        String message;
         if (requestMethod.equalsIgnoreCase("GET")) {
-            response = greetingService.buildGreeting(new Date());
-            httpResponse = new HttpResponse(200, response);
+            message = greetingService.buildGreeting(new Date());
+            return new HttpResponse(200, message);
         } else {
-            httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
+            return new HttpResponse(404, ConstantString.REQUEST_NOT_IMPLEMENTED);
         }
-        return httpResponse;
     }
 
 }

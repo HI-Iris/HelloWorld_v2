@@ -19,43 +19,35 @@ public class UserHandler extends Handler {
     public void handle(HttpExchange exchange) throws IOException {
         String requestMethod = exchange.getRequestMethod();
         Optional<Map<String, String>> parameters = getParameters(exchange.getRequestURI().getQuery());
-        HttpResponse httpResponse = getHttpResponse(requestMethod, parameters);
-        super.sendResponse(httpResponse, exchange);
+        HttpResponse httpResponse = fulfilRequest(requestMethod, parameters);
+        sendResponse(httpResponse, exchange);
     }
 
-    @Override
-    public HttpResponse getHttpResponse(String requestMethod, Optional<Map<String, String>> params) {
-        HttpResponse httpResponse;
+    private HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
         switch (requestMethod.toUpperCase()) {
             case "POST":
                 if (params.isPresent() && params.get().containsKey("name")) {
-                    httpResponse = userRepository.create(params.get().get("name"));
+                    return new HttpResponse(200, userRepository.create(params.get().get("name")));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    return new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
                 }
-                break;
             case "GET":
-                httpResponse = userRepository.read();
-                break;
+                return new HttpResponse(200, userRepository.read());
             case "PUT":
                 if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
-                    httpResponse = userRepository.update(params.get().get("name"), params.get().get("newName"));
+                    return new HttpResponse(200, userRepository.update(params.get().get("name"), params.get().get("newName")));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    return new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
                 }
-                break;
             case "DELETE":
                 if (params.isPresent() && params.get().containsKey("name")) {
-                    httpResponse = userRepository.delete(params.get().get("name"));
+                    return new HttpResponse(200, userRepository.delete(params.get().get("name")));
                 } else {
-                    httpResponse = BuildinHttpResponse.RESPONSE_PARAMETER_NOT_MATCH;
+                    return new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
                 }
-                break;
             default:
-                httpResponse = BuildinHttpResponse.RESPONSE_REQUEST_NOT_IMPLEMENTED;
-                break;
+                return new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
         }
-        return httpResponse;
     }
 
     private Optional<Map<String, String>> getParameters(String queryString) {
