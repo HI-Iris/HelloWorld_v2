@@ -21,13 +21,6 @@ public abstract class Handler implements HttpHandler {
 
     public abstract HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params);
 
-    private void sendResponse(HttpResponse response, HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(response.getStatusCode(), response.getResponse().length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getResponse().getBytes());
-        os.close();
-    }
-
     private Optional<Map<String, String>> getParameters(String queryString) {
         if (queryString != null) {
             Map<String, String> result = new HashMap<>();
@@ -42,5 +35,12 @@ public abstract class Handler implements HttpHandler {
             return Optional.of(result);
         }
         return Optional.empty();
+    }
+
+    private void sendResponse(HttpResponse response, HttpExchange exchange) throws IOException {
+        exchange.sendResponseHeaders(response.getStatusCode(), response.getResponse().length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(response.getResponse().getBytes());
+        os.close();
     }
 }
