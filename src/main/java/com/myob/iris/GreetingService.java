@@ -6,14 +6,14 @@ import java.util.List;
 
 public class GreetingService {
 
-    private List<User> users;
+    private UserRepository userRepository;
 
-    public GreetingService(List<User> users) {
-        this.users = users;
+    public GreetingService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public String buildGreeting(Date date) {
-        return "Hello " + formatUserName(users) + " - the time on the server is " + formatDate(date);
+        return "Hello " + formatUserName(userRepository.getUsers()) + " - the time on the server is " + formatDate(date);
     }
 
     private String formatDate(Date date) {

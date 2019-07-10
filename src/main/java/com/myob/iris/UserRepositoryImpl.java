@@ -11,6 +11,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<User> getUsers() {
+        return users;
+    }
+
+    @Override
     public String create(String nameToCreate) {
         List<String> upperCaseName = getUpperCaseNamesFromUsers();
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToCreate);
@@ -71,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
             case User_Exist:
                 int userIndex = upperCaseName.indexOf(nameToDelete.toUpperCase());
                 users.remove(userIndex);
-                return  "User " + nameToDelete + " deleted";
+                return "User " + nameToDelete + " deleted";
             case User_Not_Exist:
                 return ConstantString.USER_NOT_EXIST;
             case Invalid_User:

@@ -1,9 +1,8 @@
 package com.myob.iris;
 
-import com.sun.net.httpserver.HttpExchange;
-
-import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
 
 public class GreetingHandler extends Handler {
     private GreetingService greetingService;
@@ -13,13 +12,7 @@ public class GreetingHandler extends Handler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        String requestMethod = exchange.getRequestMethod();
-        HttpResponse httpResponse = fulfilRequest(requestMethod);
-        super.sendResponse(httpResponse, exchange);
-    }
-
-    private HttpResponse fulfilRequest(String requestMethod) {
+    public HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
         String message;
         if (requestMethod.equalsIgnoreCase("GET")) {
             message = greetingService.buildGreeting(new Date());

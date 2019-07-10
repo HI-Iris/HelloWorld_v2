@@ -15,7 +15,7 @@ public class HelloWorldApplication {
         List<User> users = new ArrayList<>();
         users.add(defaultUser);
         UserRepository userRepository = new UserRepositoryImpl(users);
-        GreetingService greetingService = new GreetingService(users);
+        GreetingService greetingService = new GreetingService(userRepository);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new GreetingHandler(greetingService));

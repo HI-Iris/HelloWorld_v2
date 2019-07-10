@@ -9,17 +9,22 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class GreetingServiceTest {
     private static List<User> users;
     private Date testDate = new Date();
     private GreetingService greetingService;
+    private UserRepository userRepository;
 
     @Before
     public void setup() {
         users = new ArrayList<>();
         users.add(new User("Iris"));
-        greetingService = new GreetingService(users);
+        userRepository = mock(UserRepositoryImpl.class);
+        when(userRepository.getUsers()).thenReturn(users);
+        greetingService = new GreetingService(userRepository);
         testDate.setTime(1561078257000L);
     }
 

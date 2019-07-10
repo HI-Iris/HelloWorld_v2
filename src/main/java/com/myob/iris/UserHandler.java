@@ -1,9 +1,5 @@
 package com.myob.iris;
 
-import com.sun.net.httpserver.HttpExchange;
-
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,14 +12,7 @@ public class UserHandler extends Handler {
     }
 
     @Override
-    public void handle(HttpExchange exchange) throws IOException {
-        String requestMethod = exchange.getRequestMethod();
-        Optional<Map<String, String>> parameters = getParameters(exchange.getRequestURI().getQuery());
-        HttpResponse httpResponse = fulfilRequest(requestMethod, parameters);
-        sendResponse(httpResponse, exchange);
-    }
-
-    private HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
+    public HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
         switch (requestMethod.toUpperCase()) {
             case "POST":
                 if (params.isPresent() && params.get().containsKey("name")) {
@@ -50,21 +39,6 @@ public class UserHandler extends Handler {
         }
     }
 
-    private Optional<Map<String, String>> getParameters(String queryString) {
-        if (queryString != null) {
-            Map<String, String> result = new HashMap<>();
-            for (String param : queryString.split("&")) {
-                String[] entry = param.split("=");
-                if (entry.length > 1) {
-                    result.put(entry[0], entry[1]);
-                } else {
-                    result.put(entry[0], "");
-                }
-            }
-            return Optional.of(result);
-        }
-        return Optional.empty();
-    }
 
 }
 
