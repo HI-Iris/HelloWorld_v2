@@ -18,7 +18,7 @@ public class GreetingHandler extends Handler {
             message = greetingService.buildGreeting(new Date());
             return new HttpResponse(200, message);
         } else {
-            return new HttpResponse(404, ConstantString.REQUEST_NOT_IMPLEMENTED);
+            return new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
         }
     }
 

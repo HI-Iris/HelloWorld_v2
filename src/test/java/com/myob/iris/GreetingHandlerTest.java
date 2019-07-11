@@ -25,21 +25,21 @@ public class GreetingHandlerTest {
     @Test
     public void givenPostRequestShouldReturnRequestNotImplemented() {
         HttpResponse actual = greetingHandler.fulfilRequest("POST", Optional.empty());
-        HttpResponse expected =  new HttpResponse(404, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected =  new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPutRequestShouldReturnRequestNotImplemented() {
         HttpResponse actual = greetingHandler.fulfilRequest("PUT", Optional.empty());
-        HttpResponse expected =  new HttpResponse(404, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected =  new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenDeleteRequestShouldReturnRequestNotImplemented() {
         HttpResponse actual = greetingHandler.fulfilRequest("DELETE", Optional.empty());
-        HttpResponse expected =  new HttpResponse(404, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected =  new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
 
