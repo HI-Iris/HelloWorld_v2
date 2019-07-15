@@ -38,7 +38,7 @@ To run the application, you must have the following installed:
 ### Command Line
 In the root directory of the project, run the following command:
 ```
-./gradlew 
+gradle 
 ```
 
 ## Running Tests
@@ -49,26 +49,26 @@ Right click on the test folder in the project structure, click `Run 'All Tests'`
 ### Command Line
 In the root directory of the project, run the following command:
 ```
-./gradlew test
+gradle test
 ```
 
-##Making Request
+## Making Request
 Requests can be made through Postman, curl or your http tool of choice.
 
-###GET
+### GET
 `localhost:8080` the server will return user name and current date time (greeting)
 `localhost:8080/users` the server will return a list of user name without greeting
 
-###POST
+### POST
 `localhost:8080/users?name=TestName` the server will add user `TestName` to the list
 
-###PUT
+### PUT
 `localhost:8080/users?name=TestName&newName=TestName2` the server will change the user name from `TestName` to `TestName2`
 
-###DELETE
+### DELETE
 `localhost:8080/users?name=TestName` the server will delete user `TestName` from list
 
-###All other request
+### All other request
 Making any other request will return a 501-request not implemented response
 
 ## Deployment
