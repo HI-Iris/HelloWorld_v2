@@ -1,63 +1,75 @@
-HelloWorld
+# Hello World Web Application
+[![Build Status](https://badge.buildkite.com/af0b7cd26de4130b01475f90bb8129710804c1084d0eab7811.svg)](https://buildkite.com/myob/iris-hello-world)
 
-1. User should be able to add a person to this app by sending request to backend
-   POST /users?name=parameter
-   
-   List             parameter     List change
-   [A]              A           [A]
-   [A]              1           [A]
-   [A]              a           [A]
-   [A]              B           [A, B]
-   [A, B]           B           [A, B]
-   [A, B]           b           [A, B]
-   [A, B]           1           [A, B]
-   [A, B]           C           [A, B, C]
+This Hello World application is developed by Iris Hou.
 
-2. The server should return the list of person's name and time (greeting)
-   GET /
-   Assumption: the sequence of name is not sorted, just as it is returned from in memory list
+## Outline
+Implement a basic Hello World web application without using any frameworks.
 
-   List           output
-   [A]            Hello A, the time on the server is 10:59pm on 14 March 2018
-   [A]            Hello A, the time on the server is 02:05pm on 2 May 2019
-   [A, B]         Hello A and B, the time on the server is 10:59pm on 14 March 2018
-   [A, B, C]      Hello A, B and C, the time on the server is 10:59pm on 14 March 2018
+In it's simplest form, when calling the web application it should return your name, a greeting and the current date/time of the server.
 
-3. User should be able to remove a person, not yourself, from the app
-   DELETE /users?name=parameter
-   
-   List             parameter     List change     output
-   [A]              A           [A]         Sorry, you cannot delete yourself from your world
-   [A]              a           [A]         Sorry, you cannot delete yourself from your world
-   [A]              B           [A]         Sorry, you cannot delete, user B does not exist
-   [A, B]           A           [A, B]      Sorry, you cannot delete yourself from your world
-   [A, B]           B           [A]         You have successfully deleted user B
-   [A, B]           b           [A]         You have successfully deleted user B
-   [A, C]           B           [A, C]      Sorry, you cannot delete, user B does not exist
-   
-4. User should be able to get a list of the users' names without greeting
-   GET /users
-   
-   List               output
-   [A]              A
-   [A, B]           A, B
-   
-5. User should be able to change the name of person on the list
-   PUT /users?name=para&newName=parameter
+I.e. If my name were Mark, when hitting the web server (http://localhost:8080) it should display "Hello Mark - the time on the server is 10:48pm on 14 March 2018"
 
-   List               parameter        List change     output
-   [A]              A->A             [A]           Sorry, you cannot change default user's name
-   [A]              A->1             [A]           Sorry, you cannot change default user's name
-   [A]              A->a             [A]           Sorry, you cannot change default user's name
-   [A]              A->B             [A]           Sorry, you cannot change default user's name
-   [A]              B->C             [A]           Sorry, user B does not exist, you cannot change the name
-   [A, B]           B->A             [A, B]        Sorry, user A is already in the list
-   [A, B]           B->C             [A, C]        You have successfully changed user name from B to C
-   [A, B]           B->b             [A, B]        Sorry, user B is already in the list
-   [A, B]           C->B             [A, B]        Sorry, user C does not exist, you cannot change the name
-   [A, B]           C->D             [A, B]        Sorry, user C does not exist, you cannot change the name
-   [A, B, C]        B->C             [A, B, C]     Sorry, user C is already in the list
+By default your web application should just show your name however, you should also be able to do some additional tasks including:
 
-6. User cannot remove himself from the list
+You should be able to add Bob to your hello world, after calling the appropriate http requests it should display "Hello Mark and Bob - the time on the server is 10:59pm on 14 March 2018"
+You should then be able to add Mary to your hello world, "Hello Mark, Bob and Mary - the time on the server is 10:59pm on 14 March 2018"
+You can also remove people from the greeting, you could remove Bob while keeping Mary, "Hello Mark & Mary - the time on the server is 11:01pm on 14 March 2018"
+You should be able to have a custom url to get just a list of people's names without the greetings
+You should be able to change someones name, if you have already added Bob and Bob now want's to be called Dave, you should be able to do that.
+You can never remove yourself from the world - in this world Mark will always be there, in your world you should always be there!
+You can also assume that everyone in your hello world has a unique name, there is only ever one Mark, one Bob, one Mary, etc.
+You don't need to worry about forms for adding people, just interact using curl or postman or your http tool of choice to interact with the Hello World.
 
-7. Every name on the list is unique, user cannot add another person who has the same name and cannot edit the name to any existing name
+## Getting Started
+
+### Prerequisites
+To run the application, you must have the following installed:
+* Java 12
+
+### Built With
+* Java 12 - The source compatibility is Java 12, there is no assurance that it works with versions prior to 12.
+* [JUnit](https://junit.org/junit4/) - Testing framework used
+
+## Running the application
+
+### IntelliJ
+
+### Command Line
+In the root directory of the project, run the following command:
+```
+./gradlew 
+```
+
+## Running Tests
+
+### IntelliJ
+Right click on the test folder in the project structure, click `Run 'All Tests'`
+
+### Command Line
+In the root directory of the project, run the following command:
+```
+./gradlew test
+```
+
+##Making Request
+Requests can be made through Postman, curl or your http tool of choice.
+
+###GET
+`localhost:8080` the server will return user name and current date time (greeting)
+`localhost:8080/users` the server will return a list of user name without greeting
+
+###POST
+`localhost:8080/users?name=TestName` the server will add user `TestName` to the list
+
+###PUT
+`localhost:8080/users?name=TestName&newName=TestName2` the server will change the user name from `TestName` to `TestName2`
+
+###DELETE
+`localhost:8080/users?name=TestName` the server will delete user `TestName` from list
+
+###All other request
+Making any other request will return a 501-request not implemented response
+
+## Deployment
+Currently deployed to Jupiter Preprod environment. The pipeline yaml can be found in the .buildkite folder in the root directory, while the relevant pipeline scripts are in the ops folder. 
