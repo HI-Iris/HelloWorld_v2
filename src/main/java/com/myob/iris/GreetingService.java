@@ -18,7 +18,7 @@ public class GreetingService {
 
     private String formatDate(Date date) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("hh:mma 'on' dd MMMM YYYY");
-        return dateFormatter.format(date);
+        return dateFormatter.format(date).replace("AM", "am").replace("PM","pm");
     }
 
     private String formatUserName(List<User> users) {
