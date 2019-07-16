@@ -3,8 +3,18 @@ services:
   test:
     build:
       context: .
-      dockerfile: build.Dockerfile
+      dockerfile: Dockerfile.test
     volumes:
       - .:/app
     command: sh -c "./gradlew clean test -i"
+    working_dir: /app
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOME}/.aws:/root/.aws
+    command: sh ./ops/bin/build.sh
     working_dir: /app

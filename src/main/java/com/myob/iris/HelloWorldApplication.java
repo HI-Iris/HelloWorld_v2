@@ -22,6 +22,7 @@ public class HelloWorldApplication {
         server.createContext("/users", new UserHandler(userRepository));
         server.setExecutor(null);
         server.start();
+        System.out.println("Server started");
     }
 
 }

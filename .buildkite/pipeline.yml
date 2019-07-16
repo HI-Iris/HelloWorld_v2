@@ -1,6 +1,12 @@
 steps:
-  - label: 'run unit tests :unicorn_face:'
+  - label: 'Run unit tests :unicorn_face:'
     command: 'docker-compose build test && docker-compose run test'
     branches: 'master'
     agents:
       queue: fma-dev-dflt
+  - wait
+  - label: 'Build and publish docker image :docker:'
+      command: 'docker-compose build build && docker-compose run build'
+      branches: 'master'
+      agents:
+        queue: fma-dev-dflt
