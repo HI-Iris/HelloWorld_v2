@@ -6,7 +6,7 @@ steps:
       queue: fma-dev-dflt
   - wait
   - label: 'Build and publish docker image :docker:'
-      command: 'docker-compose build build && docker-compose run build'
-      branches: 'master'
-      agents:
-        queue: fma-dev-dflt
+    command: 'docker-compose build build && docker-compose run build'
+    branches: 'master'
+    agents:
+      queue: fma-dev-dflt
