@@ -6,5 +6,5 @@ services:
       dockerfile: build.Dockerfile
     volumes:
       - .:/app
-    command: sh -c "gradle clean test -i"
+    command: sh -c "./gradlew clean test -i"
     working_dir: /app
