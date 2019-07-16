@@ -34,11 +34,15 @@ To run the application, you must have the following installed:
 ## Running the application
 
 ### IntelliJ
+Create new configuration, set the main class as
+```
+com.myob.iris.HelloWorldApplication
+```
 
 ### Command Line
 In the root directory of the project, run the following command:
 ```
-gradle 
+gradle run
 ```
 
 ## Running Tests
@@ -72,4 +76,4 @@ Requests can be made through Postman, curl or your http tool of choice.
 Making any other request will return a 501-request not implemented response
 
 ## Deployment
-Currently deployed to Jupiter Preprod environment. The pipeline yaml can be found in the .buildkite folder in the root directory, while the relevant pipeline scripts are in the ops folder. 
+Currently deployed to Jupiter Preprod environment. The pipeline yml can be found in the .buildkite folder in the root directory, while the relevant pipeline scripts are in the ops folder. 
