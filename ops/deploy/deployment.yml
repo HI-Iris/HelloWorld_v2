@@ -38,6 +38,8 @@ objects:
   - kind: Service
     apiVersion: v1
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
       name: "iris-hello-world"
     spec:
       ports:
@@ -45,7 +47,6 @@ objects:
           targetPort: 80
       selector:
         app: "iris-hello-world"
-
 
   - kind: Ingress
     apiVersion: extensions/v1beta1
@@ -66,4 +67,3 @@ objects:
         - hosts:
             - "iris-hello-world.svc.platform.myobdev.com"
           secretName: "iris-hello-world-tls"
-
