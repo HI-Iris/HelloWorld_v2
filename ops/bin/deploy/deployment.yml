@@ -1,0 +1,69 @@
+---
+kind: "Template"
+apiVersion: "v1"
+metadata:
+  name: "Deployment"
+  annotations:
+    description: "Europa Preprod deployment for Hello World Application"
+labels:
+  template: "Deployment"
+objects:
+
+  - kind: Deployment
+    apiVersion: apps/v1beta2
+    metadata:
+      name: "iris-hello-world"
+    spec:
+      replicas: 2
+      selector:
+        matchLabels:
+          app: "iris-hello-world"
+      template:
+        metadata:
+          labels:
+            app: "iris-hello-world"
+        spec:
+          containers:
+            - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
+              name: iris-hello-world
+              ports:
+                - containerPort: 80
+              livenessProbe:
+                httpGet:
+                  path: /health
+                  port: 80
+                initialDelaySeconds: 3
+                periodSeconds: 3
+
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: "iris-hello-world"
+    spec:
+      ports:
+        - port: 80
+          targetPort: 80
+      selector:
+        app: "iris-hello-world"
+
+
+  - kind: Ingress
+    apiVersion: extensions/v1beta1
+    metadata:
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      name: "iris-hello-world"
+    spec:
+      rules:
+        - host: "iris-hello-world.svc.platform.myobdev.com"
+          http:
+            paths:
+              - backend:
+                  serviceName: "iris-hello-world-service"
+                  servicePort: 80
+                path: /
+      tls:
+        - hosts:
+            - "iris-hello-world.svc.platform.myobdev.com"
+          secretName: "iris-hello-world-tls"
+

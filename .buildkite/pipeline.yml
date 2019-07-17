@@ -10,3 +10,9 @@ steps:
     branches: 'master'
     agents:
       queue: fma-dev-dflt
+  - wait
+  - label: 'Deploy to Europa Preprod :chrome:'
+    command: ./ops/bin/deploy
+    branches: 'master'
+    agents:
+      queue: europa-preprod-training
