@@ -12,16 +12,16 @@ objects:
   - kind: Deployment
     apiVersion: apps/v1beta2
     metadata:
-      name: "iris-hello-world"
+      name: "iris-hello-world-deployment"
     spec:
       replicas: 2
       selector:
         matchLabels:
-          app: "iris-hello-world"
+          app: "iris-hello-world-svc"
       template:
         metadata:
           labels:
-            app: "iris-hello-world"
+            app: "iris-hello-world-svc"
         spec:
           containers:
             - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
@@ -40,30 +40,42 @@ objects:
     metadata:
       annotations:
         prometheus.io/scrape: "true"
-      name: "iris-hello-world"
+      name: "iris-hello-world-svc"
     spec:
       ports:
         - port: 80
           targetPort: 80
       selector:
-        app: "iris-hello-world"
+        app: "iris-hello-world-svc"
 
   - kind: Ingress
     apiVersion: extensions/v1beta1
     metadata:
       annotations:
         kubernetes.io/tls-acme: "true"
-      name: "iris-hello-world"
+      name: "iris-hello-world-ingress"
     spec:
       rules:
         - host: "iris-hello-world.svc.platform.myobdev.com"
           http:
             paths:
               - backend:
-                  serviceName: "iris-hello-world-service"
+                  serviceName: "iris-hello-world-svc"
                   servicePort: 80
                 path: /
       tls:
         - hosts:
             - "iris-hello-world.svc.platform.myobdev.com"
           secretName: "iris-hello-world-tls"
+
+parameters:
+  - name: "SERVICE_NAME"
+    description: "Service name"
+    value: "iris-hello-world"
+    required: true
+    parameterType: "string"
+  - name: "REPLICA_COUNT"
+    description: "Number of replicas to run"
+    value: 2
+    required: true
+    parameterType: "int"

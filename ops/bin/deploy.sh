@@ -1,4 +1,4 @@
 #! /usr/bin/env bash
 set -euo pipefail
 ktmpl $(pwd)/ops/deploy/deployment.yml \
---parameter imageTag latest | kubectl apply -f -
+--parameter SERVICE_NAME iris-hello-world | kubectl apply -f -
