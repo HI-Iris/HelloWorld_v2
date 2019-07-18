@@ -1,81 +1,61 @@
 ---
-kind: "Template"
-apiVersion: "v1"
+kind: Deployment
+apiVersion: apps/v1beta2
 metadata:
-  name: "Deployment"
-  annotations:
-    description: "Europa Preprod deployment for Hello World Application"
-labels:
-  template: "Deployment"
-objects:
-
-  - kind: Deployment
-    apiVersion: apps/v1beta2
+  name: "iris-hello-world-deployment"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "iris-hello-world-svc"
+  template:
     metadata:
-      name: "iris-hello-world-deployment"
-    spec:
-      replicas: 2
-      selector:
-        matchLabels:
-          app: "iris-hello-world-svc"
-      template:
-        metadata:
-          labels:
-            app: "iris-hello-world-svc"
-        spec:
-          containers:
-            - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
-              name: iris-hello-world
-              ports:
-                - containerPort: 80
-              livenessProbe:
-                httpGet:
-                  path: /health
-                  port: 80
-                initialDelaySeconds: 3
-                periodSeconds: 3
-
-  - kind: Service
-    apiVersion: v1
-    metadata:
-      annotations:
-        prometheus.io/scrape: "true"
-      name: "iris-hello-world-svc"
-    spec:
-      ports:
-        - port: 80
-          targetPort: 80
-      selector:
+      labels:
         app: "iris-hello-world-svc"
-
-  - kind: Ingress
-    apiVersion: extensions/v1beta1
-    metadata:
-      annotations:
-        kubernetes.io/tls-acme: "true"
-      name: "iris-hello-world-ingress"
     spec:
-      rules:
-        - host: "iris-hello-world.svc.platform.myobdev.com"
-          http:
-            paths:
-              - backend:
-                  serviceName: "iris-hello-world-svc"
-                  servicePort: 80
-                path: /
-      tls:
-        - hosts:
-            - "iris-hello-world.svc.platform.myobdev.com"
-          secretName: "iris-hello-world-tls"
+      containers:
+        - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
+          name: iris-hello-world
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
 
-parameters:
-  - name: "SERVICE_NAME"
-    description: "Service name"
-    value: "iris-hello-world"
-    required: true
-    parameterType: "string"
-  - name: "REPLICA_COUNT"
-    description: "Number of replicas to run"
-    value: 2
-    required: true
-    parameterType: "int"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+  name: "iris-hello-world-svc"
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: "iris-hello-world-svc"
+
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  name: "iris-hello-world-ingress"
+spec:
+  rules:
+    - host: "iris-hello-world.svc.platform.myobdev.com"
+      http:
+        paths:
+          - backend:
+              serviceName: "iris-hello-world-svc"
+              servicePort: 80
+            path: /
+  tls:
+    - hosts:
+        - "iris-hello-world.svc.platform.myobdev.com"
+      secretName: "iris-hello-world-tls"
