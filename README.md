@@ -42,7 +42,7 @@ com.myob.iris.HelloWorldApplication
 ### Command Line
 In the root directory of the project, run the following command:
 ```
-gradle run
+./gradlew run
 ```
 
 ## Running Tests
@@ -53,24 +53,24 @@ Right click on the test folder in the project structure, click `Run 'All Tests'`
 ### Command Line
 In the root directory of the project, run the following command:
 ```
-gradle test
+./gradlew test
 ```
 
 ## Making Request
 Requests can be made through Postman, curl or your http tool of choice.
 
 ### GET
-`localhost:8080` the server will return user name and current date time (greeting)
-`localhost:8080/users` the server will return a list of user name without greeting
+`https://iris-hello-world.svc.platform.myobdev.com/` the server will return user name and current date time (greeting)
+`https://iris-hello-world.svc.platform.myobdev.com//users` the server will return a list of user name without greeting
 
 ### POST
-`localhost:8080/users?name=TestName` the server will add user `TestName` to the list
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName` the server will add user `TestName` to the list
 
 ### PUT
-`localhost:8080/users?name=TestName&newName=TestName2` the server will change the user name from `TestName` to `TestName2`
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName&newName=TestName2` the server will change the user name from `TestName` to `TestName2`
 
 ### DELETE
-`localhost:8080/users?name=TestName` the server will delete user `TestName` from list
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName` the server will delete user `TestName` from list
 
 ### All other request
 Making any other request will return a 501-request not implemented response
