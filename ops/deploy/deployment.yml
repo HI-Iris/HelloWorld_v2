@@ -17,13 +17,7 @@ spec:
         - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
           name: iris-hello-world
           ports:
-            - containerPort: 80
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 80
-            initialDelaySeconds: 3
-            periodSeconds: 3
+            - containerPort: 8080
 
 ---
 kind: Service
