@@ -3,6 +3,9 @@ package com.myob.iris;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +17,7 @@ import static org.mockito.Mockito.when;
 
 public class GreetingServiceTest {
     private static List<User> users;
-    private Date testDate = new Date();
+    private ZonedDateTime testDate;
     private GreetingService greetingService;
     private UserRepository userRepository;
 
@@ -25,7 +28,7 @@ public class GreetingServiceTest {
         userRepository = mock(UserRepositoryImpl.class);
         when(userRepository.getUsers()).thenReturn(users);
         greetingService = new GreetingService(userRepository);
-        testDate.setTime(1561078257000L);
+        testDate = ZonedDateTime.ofInstant(new Date(1561078257000L).toInstant(), ZoneId.of("Australia/Melbourne"));
     }
 
     @Test
@@ -37,7 +40,7 @@ public class GreetingServiceTest {
 
     @Test
     public void givenOneUserShouldReturnUserNameAndServerTime() {
-        testDate.setTime(1461078834000L);
+        testDate = ZonedDateTime.ofInstant(new Date(1461078834000L).toInstant(), ZoneId.of("Australia/Melbourne"));
         String expected = "Hello Iris - the time on the server is 01:13am on 20 April 2016";
         String actual = greetingService.buildGreeting(testDate);
         assertThat(actual, equalTo(expected));
@@ -45,7 +48,7 @@ public class GreetingServiceTest {
 
     @Test
     public void givenOneUserShouldReturnUserNameAndServerTimePm() {
-        testDate.setTime(1561088949000L);
+        testDate = ZonedDateTime.ofInstant(new Date(1561088949000L).toInstant(), ZoneId.of("Australia/Melbourne"));
         String expected = "Hello Iris - the time on the server is 01:49pm on 21 June 2019";
         String actual = greetingService.buildGreeting(testDate);
         assertThat(actual, equalTo(expected));

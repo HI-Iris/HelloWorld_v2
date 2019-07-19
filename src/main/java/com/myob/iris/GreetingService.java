@@ -1,6 +1,10 @@
 package com.myob.iris;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +16,13 @@ public class GreetingService {
         this.userRepository = userRepository;
     }
 
-    public String buildGreeting(Date date) {
-        return "Hello " + formatUserName(userRepository.getUsers()) + " - the time on the server is " + formatDate(date);
+    public String buildGreeting(ZonedDateTime currentTime) {
+        return "Hello " + formatUserName(userRepository.getUsers()) + " - the time on the server is " + formatDate(currentTime);
     }
 
-    private String formatDate(Date date) {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("hh:mma 'on' dd MMMM YYYY");
-        return dateFormatter.format(date).replace("AM", "am").replace("PM","pm");
+    private String formatDate(ZonedDateTime currentTime) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("hh:mma 'on' dd MMMM YYYY");
+        return dateFormatter.format(currentTime).replace("AM", "am").replace("PM","pm");
     }
 
     private String formatUserName(List<User> users) {
