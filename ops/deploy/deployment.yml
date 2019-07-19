@@ -7,11 +7,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: "iris-hello-world-svc"
+      app: "iris-hello-world-app"
   template:
     metadata:
       labels:
-        app: "iris-hello-world-svc"
+        app: "iris-hello-world-app"
     spec:
       containers:
         - image: "945367126992.dkr.ecr.ap-southeast-2.amazonaws.com/iris-hello-world:latest"
@@ -37,7 +37,7 @@ spec:
     - port: 80
       targetPort: 80
   selector:
-    app: "iris-hello-world-svc"
+    app: "iris-hello-world-app"
 
 ---
 kind: Ingress
