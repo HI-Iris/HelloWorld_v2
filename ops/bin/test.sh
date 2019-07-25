@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-./gradlew clean test -i
+
+docker build -f /Dockerfile.test -t iris-hello-world .
+
+docker run --rm iris-hello-world:latest ./gradlew test

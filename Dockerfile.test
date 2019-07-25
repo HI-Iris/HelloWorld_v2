@@ -1,0 +1,4 @@
+FROM openjdk:13-alpine
+WORKDIR /app
+COPY . .
+RUN ./gradlew build
