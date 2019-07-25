@@ -1,11 +1,6 @@
 FROM openjdk:13-alpine
-
 WORKDIR /app
-
 COPY . .
-
-RUN ./gradlew build -x test
-
+RUN ./gradlew clean build -x test
 CMD ["java", "-jar", "./app.jar"]
-
 EXPOSE 80
