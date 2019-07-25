@@ -1,5 +1,0 @@
-FROM openjdk:13-alpine
-
-RUN apk add --update --no-cache py-pip docker
-
-RUN pip --no-cache-dir install --upgrade awscli
