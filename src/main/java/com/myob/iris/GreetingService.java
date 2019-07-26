@@ -17,7 +17,7 @@ public class GreetingService {
     }
 
     public String buildGreeting(ZonedDateTime currentTime) {
-        return "If you see this, it is working! Hello " + formatUserName(userRepository.getUsers()) + " - the time on the server is " + formatDate(currentTime);
+        return "Hello " + formatUserName(userRepository.getUsers()) + " - the time on the server is " + formatDate(currentTime);
     }
 
     private String formatDate(ZonedDateTime currentTime) {
