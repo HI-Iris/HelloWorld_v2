@@ -1,4 +1,4 @@
-package com.myob.iris;
+package com.myob.iris.Model;
 
 public enum NameCheckResult {
     Default_User,

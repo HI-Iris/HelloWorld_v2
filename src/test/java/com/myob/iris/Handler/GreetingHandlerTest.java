@@ -1,5 +1,10 @@
-package com.myob.iris;
+package com.myob.iris.Handler;
 
+import com.myob.iris.Handler.GreetingHandler;
+import com.myob.iris.Model.ErrMsgConstant;
+import com.myob.iris.Model.HttpResponse;
+import com.myob.iris.Model.User;
+import com.myob.iris.Service.GreetingService;
 import org.junit.Before;
 import org.junit.Test;
 

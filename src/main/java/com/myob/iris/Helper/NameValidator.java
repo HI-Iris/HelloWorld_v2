@@ -1,4 +1,6 @@
-package com.myob.iris;
+package com.myob.iris.Helper;
+
+import com.myob.iris.Model.NameCheckResult;
 
 import java.util.List;
 

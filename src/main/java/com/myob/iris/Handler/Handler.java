@@ -1,5 +1,6 @@
-package com.myob.iris;
+package com.myob.iris.Handler;
 
+import com.myob.iris.Model.HttpResponse;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 

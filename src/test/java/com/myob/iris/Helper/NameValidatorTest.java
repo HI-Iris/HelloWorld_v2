@@ -1,5 +1,7 @@
-package com.myob.iris;
+package com.myob.iris.Helper;
 
+import com.myob.iris.Helper.NameValidator;
+import com.myob.iris.Model.NameCheckResult;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

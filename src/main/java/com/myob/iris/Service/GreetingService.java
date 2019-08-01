@@ -1,4 +1,6 @@
-package com.myob.iris;
+package com.myob.iris.Service;
+
+import com.myob.iris.Model.User;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

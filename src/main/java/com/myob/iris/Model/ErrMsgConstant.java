@@ -1,4 +1,4 @@
-package com.myob.iris;
+package com.myob.iris.Model;
 
 public class ErrMsgConstant {
     public static final String DEFAULT_USER = "Default user cannot be changed";

@@ -1,4 +1,4 @@
-package com.myob.iris;
+package com.myob.iris.Model;
 
 import java.util.Objects;
 
