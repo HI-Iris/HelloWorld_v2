@@ -19,7 +19,7 @@ public class GreetingHandler extends Handler {
             message = greetingService.buildGreeting(ZonedDateTime.now(ZoneId.of("Australia/Melbourne")));
             return new HttpResponse(200, message);
         } else {
-            return new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
+            return new HttpResponse(501, ErrMsgConstant.REQUEST_NOT_IMPLEMENTED);
         }
     }
 

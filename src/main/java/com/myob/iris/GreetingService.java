@@ -1,11 +1,7 @@
 package com.myob.iris;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 public class GreetingService {
@@ -22,7 +18,7 @@ public class GreetingService {
 
     private String formatDate(ZonedDateTime currentTime) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("hh:mma 'on' dd MMMM YYYY");
-        return dateFormatter.format(currentTime).replace("AM", "am").replace("PM","pm");
+        return dateFormatter.format(currentTime).replace("AM", "am").replace("PM", "pm");
     }
 
     private String formatUserName(List<User> users) {

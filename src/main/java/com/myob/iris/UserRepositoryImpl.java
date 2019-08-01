@@ -21,17 +21,17 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToCreate);
         switch (nameCheckResult) {
             case Default_User:
-                return ConstantString.DEFAULT_USER;
+                return ErrMsgConstant.DEFAULT_USER;
             case User_Exist:
-                return ConstantString.USER_EXIST;
+                return ErrMsgConstant.USER_EXIST;
             case User_Not_Exist:
                 User newUser = new User(nameToCreate);
                 users.add(newUser);
                 return "User " + nameToCreate + " created";
             case Invalid_User:
-                return ConstantString.INVALID_INPUT;
+                return ErrMsgConstant.INVALID_INPUT;
             default:
-                return ConstantString.UNEXPECTED_ERROR;
+                return ErrMsgConstant.UNEXPECTED_ERROR;
         }
     }
 
@@ -47,9 +47,9 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToUpdate);
         switch (nameCheckResult) {
             case Default_User:
-                return ConstantString.DEFAULT_USER;
+                return ErrMsgConstant.DEFAULT_USER;
             case User_Not_Exist:
-                return ConstantString.USER_NOT_EXIST;
+                return ErrMsgConstant.USER_NOT_EXIST;
             case User_Exist:
                 NameCheckResult newNameCheckResult = NameValidator.checkName(upperCaseName, newName);
                 if (newNameCheckResult.equals(NameCheckResult.User_Not_Exist)) {
@@ -57,12 +57,12 @@ public class UserRepositoryImpl implements UserRepository {
                     users.get(userIndex).setName(newName);
                     return "User " + nameToUpdate + " updated to " + newName;
                 } else {
-                    return ConstantString.USER_EXIST;
+                    return ErrMsgConstant.USER_EXIST;
                 }
             case Invalid_User:
-                return ConstantString.INVALID_INPUT;
+                return ErrMsgConstant.INVALID_INPUT;
             default:
-                return ConstantString.UNEXPECTED_ERROR;
+                return ErrMsgConstant.UNEXPECTED_ERROR;
         }
     }
 
@@ -72,17 +72,17 @@ public class UserRepositoryImpl implements UserRepository {
         NameCheckResult nameCheckResult = NameValidator.checkName(upperCaseName, nameToDelete);
         switch (nameCheckResult) {
             case Default_User:
-                return ConstantString.DEFAULT_USER;
+                return ErrMsgConstant.DEFAULT_USER;
             case User_Exist:
                 int userIndex = upperCaseName.indexOf(nameToDelete.toUpperCase());
                 users.remove(userIndex);
                 return "User " + nameToDelete + " deleted";
             case User_Not_Exist:
-                return ConstantString.USER_NOT_EXIST;
+                return ErrMsgConstant.USER_NOT_EXIST;
             case Invalid_User:
-                return ConstantString.INVALID_INPUT;
+                return ErrMsgConstant.INVALID_INPUT;
             default:
-                return ConstantString.UNEXPECTED_ERROR;
+                return ErrMsgConstant.UNEXPECTED_ERROR;
         }
     }
 

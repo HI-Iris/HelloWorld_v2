@@ -12,7 +12,6 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 
 public class UserHandlerTest {
-
     private static List<User> users;
     private static UserHandler userHandler;
     private static Optional<Map<String, String>> wrongParam;
@@ -34,14 +33,14 @@ public class UserHandlerTest {
     @Test
     public void givenPostRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("POST", Optional.empty());
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPostRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("POST", wrongParam);
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
@@ -72,14 +71,14 @@ public class UserHandlerTest {
     @Test
     public void givenPutRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("PUT", Optional.empty());
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPutRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("PUT", wrongParam);
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
@@ -92,14 +91,14 @@ public class UserHandlerTest {
     @Test
     public void givenDeleteRequestWithoutParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("DELETE", Optional.empty());
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenDeleteRequestWithWrongParameterShouldReturnParameterNotMatch() {
         HttpResponse actual = userHandler.fulfilRequest("DELETE", wrongParam);
-        HttpResponse expected = new HttpResponse(404, ConstantString.PARAMETER_NOT_FOUND);
+        HttpResponse expected = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         assertThat(actual, equalTo(expected));
     }
 
@@ -112,20 +111,20 @@ public class UserHandlerTest {
     @Test
     public void givenPatchRequestWithoutParameterShouldReturnRequestNotImplemented() {
         HttpResponse actual = userHandler.fulfilRequest("PATCH", Optional.empty());
-        HttpResponse expected = new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected = new HttpResponse(501, ErrMsgConstant.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
 
     @Test
     public void givenPatchRequestWithWrongParameterShouldReturnRequestNotImplemented() {
         HttpResponse actual = userHandler.fulfilRequest("PATCH", wrongParam);
-        HttpResponse expected = new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected = new HttpResponse(501, ErrMsgConstant.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
     @Test
     public void givenPatchRequestWithCorrectParameterShouldReturnRequestNotImplemented() {
         HttpResponse actual = userHandler.fulfilRequest("PATCH", correctParam);
-        HttpResponse expected = new HttpResponse(501, ConstantString.REQUEST_NOT_IMPLEMENTED);
+        HttpResponse expected = new HttpResponse(501, ErrMsgConstant.REQUEST_NOT_IMPLEMENTED);
         assertThat(actual, equalTo(expected));
     }
 

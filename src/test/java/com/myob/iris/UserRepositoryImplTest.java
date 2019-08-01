@@ -12,7 +12,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 
 public class UserRepositoryImplTest {
-
     private List<User> users;
     private UserRepositoryImpl userRepository;
     private final User defaultUser = new User("Iris");
@@ -41,7 +40,7 @@ public class UserRepositoryImplTest {
     public void givenDefaultUserNameShouldNotCreateUserAndReturnDefaultUserResponse() {
         String nameToCreate = "iris";
         String actual  = userRepository.create(nameToCreate);
-        String expected = ConstantString.DEFAULT_USER;
+        String expected = ErrMsgConstant.DEFAULT_USER;
         assertThat(actual, equalTo(expected));
     }
 
@@ -49,7 +48,7 @@ public class UserRepositoryImplTest {
     public void givenExistUserNameShouldNotCreateUserAndReturnUserExistResponse() {
         String nameToCreate = "bella";
         String actual  = userRepository.create(nameToCreate);
-        String expected = ConstantString.USER_EXIST;
+        String expected = ErrMsgConstant.USER_EXIST;
         assertThat(actual, equalTo(expected));
     }
 
@@ -57,7 +56,7 @@ public class UserRepositoryImplTest {
     public void givenNumericUserNameShouldNotCreateUserAndReturnInvalidUserResponse() {
         String nameToCreate = "bella123";
         String actual = userRepository.create(nameToCreate);
-        String expected = ConstantString.INVALID_INPUT;
+        String expected = ErrMsgConstant.INVALID_INPUT;
         assertThat(actual, equalTo(expected));
     }
 
@@ -83,7 +82,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = defaultUser.getName();
         String newName = "Jane";
         String actual  = userRepository.update(nameToUpdate, newName);
-        String expected = ConstantString.DEFAULT_USER;
+        String expected = ErrMsgConstant.DEFAULT_USER;
         assertThat(actual, equalTo(expected));
     }
 
@@ -92,7 +91,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = users.get(2).getName();
         String newName = "bella";
         String actual = userRepository.update(nameToUpdate, newName);
-        String expected = ConstantString.USER_EXIST;
+        String expected = ErrMsgConstant.USER_EXIST;
         assertThat(actual, equalTo(expected));
     }
 
@@ -101,7 +100,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = "Jane";
         String newName = "bella";
         String actual = userRepository.update(nameToUpdate, newName);
-        String expected = ConstantString.USER_NOT_EXIST;
+        String expected = ErrMsgConstant.USER_NOT_EXIST;
         assertThat(actual, equalTo(expected));
     }
 
@@ -110,7 +109,7 @@ public class UserRepositoryImplTest {
         String nameToUpdate = "Jane123";
         String newName = "bella";
         String actual = userRepository.update(nameToUpdate, newName);
-        String expected = ConstantString.INVALID_INPUT;
+        String expected = ErrMsgConstant.INVALID_INPUT;
         assertThat(actual, equalTo(expected));
     }
 
@@ -127,7 +126,7 @@ public class UserRepositoryImplTest {
     public void givenDefaultUserNameShouldNotDeleteAndReturnDefaultUserResponse() {
         String nameToDelete = "Iris";
         String actual  = userRepository.delete(nameToDelete);
-        String expected = ConstantString.DEFAULT_USER;
+        String expected = ErrMsgConstant.DEFAULT_USER;
         assertThat(actual, equalTo(expected));
         assertTrue(users.contains(this.defaultUser));
     }
@@ -136,7 +135,7 @@ public class UserRepositoryImplTest {
     public void givenNonExistUserNameShouldNotDeleteAndReturnUserNotExistResponse() {
         String nameToDelete = "Jane";
         String actual  = userRepository.delete(nameToDelete);
-        String expected = ConstantString.USER_NOT_EXIST;
+        String expected = ErrMsgConstant.USER_NOT_EXIST;
         assertThat(actual, equalTo(expected));
     }
 
@@ -144,7 +143,7 @@ public class UserRepositoryImplTest {
     public void givenNumericUserNameShouldNotDeleteAndReturnInvalidUserResponse() {
         String nameToDelete = "Jane123";
         String actual  = userRepository.delete(nameToDelete);
-        String expected = ConstantString.INVALID_INPUT;
+        String expected = ErrMsgConstant.INVALID_INPUT;
         assertThat(actual, equalTo(expected));
     }
 }
