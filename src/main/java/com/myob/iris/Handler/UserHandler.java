@@ -17,9 +17,11 @@ public class UserHandler extends Handler {
 
     @Override
     public HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
+        boolean isNamePresent = params.isPresent() && params.get().containsKey("name");
+        boolean isNewNamePresent = params.isPresent() && params.get().containsKey("newName");
         switch (requestMethod.toUpperCase()) {
             case "POST":
-                if (params.isPresent() && params.get().containsKey("name")) {
+                if (isNamePresent) {
                     return new HttpResponse(200, userRepository.create(params.get().get("name")));
                 } else {
                     return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
@@ -27,13 +29,13 @@ public class UserHandler extends Handler {
             case "GET":
                 return new HttpResponse(200, userRepository.read());
             case "PUT":
-                if (params.isPresent() && params.get().containsKey("name") && params.get().containsKey("newName")) {
+                if (isNamePresent && isNewNamePresent) {
                     return new HttpResponse(200, userRepository.update(params.get().get("name"), params.get().get("newName")));
                 } else {
                     return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
                 }
             case "DELETE":
-                if (params.isPresent() && params.get().containsKey("name")) {
+                if (isNamePresent) {
                     return new HttpResponse(200, userRepository.delete(params.get().get("name")));
                 } else {
                     return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
