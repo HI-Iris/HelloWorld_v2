@@ -1,9 +1,8 @@
-package com.myob.iris.Service;
+package com.myob.iris.Dao;
 
 import com.myob.iris.Model.ErrMsgConstant;
 import com.myob.iris.Model.User;
-import com.myob.iris.Service.GreetingService;
-import com.myob.iris.Service.UserRepositoryImpl;
+import com.myob.iris.Dao.UserRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 

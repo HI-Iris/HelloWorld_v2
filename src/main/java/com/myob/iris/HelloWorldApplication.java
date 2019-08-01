@@ -4,8 +4,8 @@ import com.myob.iris.Handler.GreetingHandler;
 import com.myob.iris.Handler.UserHandler;
 import com.myob.iris.Model.User;
 import com.myob.iris.Service.GreetingService;
-import com.myob.iris.Service.UserRepository;
-import com.myob.iris.Service.UserRepositoryImpl;
+import com.myob.iris.Dao.UserRepository;
+import com.myob.iris.Dao.UserRepositoryImpl;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;

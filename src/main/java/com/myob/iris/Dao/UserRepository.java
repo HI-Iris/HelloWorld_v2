@@ -1,4 +1,4 @@
-package com.myob.iris.Service;
+package com.myob.iris.Dao;
 
 import com.myob.iris.Model.User;
 

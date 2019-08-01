@@ -1,9 +1,8 @@
 package com.myob.iris.Service;
 
 import com.myob.iris.Model.User;
-import com.myob.iris.Service.GreetingService;
-import com.myob.iris.Service.UserRepository;
-import com.myob.iris.Service.UserRepositoryImpl;
+import com.myob.iris.Dao.UserRepository;
+import com.myob.iris.Dao.UserRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 
