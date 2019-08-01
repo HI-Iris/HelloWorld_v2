@@ -19,12 +19,13 @@ public class UserHandler extends Handler {
     public HttpResponse fulfilRequest(String requestMethod, Optional<Map<String, String>> params) {
         boolean isNamePresent = params.isPresent() && params.get().containsKey("name");
         boolean isNewNamePresent = params.isPresent() && params.get().containsKey("newName");
+        HttpResponse httpRspNoParam = new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
         switch (requestMethod.toUpperCase()) {
             case "POST":
                 if (isNamePresent) {
                     return new HttpResponse(200, userRepository.create(params.get().get("name")));
                 } else {
-                    return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
+                    return httpRspNoParam;
                 }
             case "GET":
                 return new HttpResponse(200, userRepository.read());
@@ -32,13 +33,13 @@ public class UserHandler extends Handler {
                 if (isNamePresent && isNewNamePresent) {
                     return new HttpResponse(200, userRepository.update(params.get().get("name"), params.get().get("newName")));
                 } else {
-                    return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
+                    return httpRspNoParam;
                 }
             case "DELETE":
                 if (isNamePresent) {
                     return new HttpResponse(200, userRepository.delete(params.get().get("name")));
                 } else {
-                    return new HttpResponse(404, ErrMsgConstant.PARAMETER_NOT_FOUND);
+                    return httpRspNoParam;
                 }
             default:
                 return new HttpResponse(501, ErrMsgConstant.REQUEST_NOT_IMPLEMENTED);
