@@ -27,9 +27,4 @@ public class HttpResponse {
         return statusCode == that.statusCode &&
                 Objects.equals(response, that.response);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(statusCode, response);
-    }
 }
