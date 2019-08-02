@@ -10,7 +10,7 @@ steps:
     branches: 'master'
     agents:
       queue: fma-dev-dflt
-  - block: ":rocket: Release!"
+  - wait
   - label: 'Deploy to Europa Preprod :chrome:'
     command: sh ./ops/bin/deploy.sh
     branches: 'master'

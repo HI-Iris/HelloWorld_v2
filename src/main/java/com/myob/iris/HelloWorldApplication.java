@@ -17,7 +17,7 @@ public class HelloWorldApplication {
 
     public static void main(String[] args) throws IOException {
 
-        final User defaultUser = new User("Iri");
+        final User defaultUser = new User("Iris");
         List<User> users = new ArrayList<>();
         users.add(defaultUser);
         UserRepository userRepository = new UserRepositoryImpl(users);
