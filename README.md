@@ -47,17 +47,22 @@ In the root directory of the project, run the following command:
 Requests can be made through Postman, curl or your http tool of choice.
 
 ### GET
-`https://iris-hello-world.svc.platform.myobdev.com/` the server will return user name and current date time (greeting)
-`https://iris-hello-world.svc.platform.myobdev.com//users` the server will return a list of user name without greeting
+`https://iris-hello-world.svc.platform.myobdev.com/`
+The server will return user name and current date time (greeting)
+`https://iris-hello-world.svc.platform.myobdev.com//users`
+The server will return a list of user name without greeting
 
 ### POST
-`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName` the server will add user `TestName` to the list
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName`
+The server will add user `TestName` to the list
 
 ### PUT
-`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName&newName=TestName2` the server will change the user name from `TestName` to `TestName2`
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName&newName=TestName2`
+The server will change the user name from `TestName` to `TestName2`
 
 ### DELETE
-`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName` the server will delete user `TestName` from list
+`https://iris-hello-world.svc.platform.myobdev.com//users?name=TestName`
+The server will delete user `TestName` from list
 
 ### All other request
 Making any other request will return a 501-request not implemented response
